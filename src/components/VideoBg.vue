@@ -1,25 +1,23 @@
 <template>
-    <video src="../assets/video/bg-1.mp4"
+<!--    <video src="../assets/video/bg-1.mp4"-->
+    <video src="../assets/video/bg-2.mp4"
            autoplay
            muted
            loop="true"
-           :style="`width: ${width}px; height: ${height}px`">
+           :style="`min-width: ${insets.width}px; min-height: ${insets.height}px`">
 
     </video>
 </template>
 
 <script>
+import {mapState} from 'vuex'
+
 export default {
     name: "VideoBg",
-    data(){
-        return {
-            width: 1920,
-            height: 1080
-        }
-    },
-    mounted() {
-
-    },
+    mounted() {},
+    computed: {
+        ...mapState(['insets'])
+    }
 
 }
 </script>

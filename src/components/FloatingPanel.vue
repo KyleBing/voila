@@ -1,5 +1,5 @@
 <template>
-    <div class="floating-panel" :style="`top: ${positionY}px; left: ${positionX}px`">
+    <div class="floating-panel" :style="`top: ${positionY}px; left: ${positionX}px; width: ${width}px`">
         <div class="header" draggable="true" ref="header">
             <div class="title">{{title}}</div>
             <div class="operations">
@@ -8,7 +8,7 @@
                 <div class="operation-item fullscreen"></div>
             </div>
         </div>
-        <div class="body">
+        <div class="body" :style="backgroundColor? `background-color: ${backgroundColor}`: ''">
             <slot/>
         </div>
     </div>
@@ -23,7 +23,12 @@ export default {
             default: ''
         },
         top: 0,
-        left: 0
+        left: 0,
+        backgroundColor: '',
+        width: {
+            type: Number,
+            default: 400
+        } // 面板宽度
     },
     data(){
         return {
@@ -60,9 +65,9 @@ export default {
 @use "sass:math";
 @import "src/assets/scss/plugin";
 
-$height-header: 30px;
-$padding-header: 5px;
-$height-operations: 16px;
+$height-header: 24px;
+$padding-header: 4px;
+$height-operations: 14px;
 
 .floating-panel{
     position: absolute;
@@ -71,12 +76,11 @@ $height-operations: 16px;
 }
 .header{
     @include border-radius(10px 10px 0 0 );
-    border: 1px solid $item-border-color;
+    border: 1px solid $border;
     border-bottom: none;
     padding: $padding-header;
-    background-color: white;
+    background-color: $bg-panel-header;
     position: relative;
-    cursor: move;
     .operations{
         left: math.div($height-header - $height-operations, 2);
         top: math.div($height-header - $height-operations, 2);
@@ -90,13 +94,13 @@ $height-operations: 16px;
             @include border-radius(20px);
             overflow: hidden;
             &.close{
-                background-color: $red;
+                background: linear-gradient(to top, $red, lighten($red, 10%)) ;
             }
             &.mini{
-                background-color: $orange;
+                background: linear-gradient(to top, $orange, lighten($orange, 10%)) ;
             }
             &.fullscreen{
-                background-color: $green;
+                background: linear-gradient(to top, $green, lighten($green, 10%)) ;
             }
             &:hover{
                 background-color: $green;
@@ -104,8 +108,12 @@ $height-operations: 16px;
         }
     }
     .title{
+        font-size: 12px;
         line-height: $height-header - $padding-header * 2 ;
         text-align: center;
+    }
+    &:hover{
+        background-color: $bg-panel-header-active;
     }
 }
 

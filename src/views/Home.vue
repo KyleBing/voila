@@ -1,5 +1,5 @@
 <template>
-    <div class="home" :style="`height: ${height}px; width: ${width}px`">
+    <div class="home" :style="`height: ${insets.height}px; width: ${insets.width}px`">
         <FloatingPanel
             :left="20*item"
             :top="20*item"
@@ -8,32 +8,31 @@
             <Count :end-val="34 * item"/>
         </FloatingPanel>
 
+        <PanelCode/>
+
         <VideoBg/>
     </div>
 </template>
 
 <script>
-
 import Count from "@/components/Count";
 import FloatingPanel from "@/components/FloatingPanel";
 import VideoBg from "@/components/VideoBg";
+import PanelCode from "@/components/PanelCode";
+
+import {mapState} from 'vuex'
+
 
 export default {
     name: 'Home',
     components: {
+        PanelCode,
         VideoBg,
         FloatingPanel,
         Count
     },
-    data(){
-        return {
-            height: 1080,
-            width: 1920
-        }
-    },
-    mounted() {
-        this.height = innerHeight
-        this.width = innerWidth
+    computed: {
+        ...mapState(['insets'])
     }
 }
 </script>
