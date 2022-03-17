@@ -25,6 +25,7 @@ export default {
 
 <style scoped lang="scss">
 .count{
+    color: white;
     font-size: 150px;
     font-family: 'DS-Digital';
 }
