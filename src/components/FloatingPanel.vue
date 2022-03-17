@@ -1,17 +1,23 @@
 <template>
-    <div class="floating-panel" :style="`top: ${positionY}px; left: ${positionX}px; width: ${width}px`">
-        <div class="header" draggable="true" ref="header">
-            <div class="title">{{title}}</div>
-            <div class="operations">
-                <div class="operation-item close"></div>
-                <div class="operation-item mini"></div>
-                <div class="operation-item fullscreen"></div>
+    <transition
+        enter-active-class="animate__animated animate__backInDown"
+        leave-active-class="animate__animated animate__bounceOutRight"
+    >
+        <div class="floating-panel" :style="`top: ${positionY}px; left: ${positionX}px; width: ${width}px`">
+            <div class="header" draggable="true" ref="header">
+                <div class="title">{{title}}</div>
+                <div class="operations">
+                    <div class="operation-item close"></div>
+                    <div class="operation-item mini"></div>
+                    <div class="operation-item fullscreen"></div>
+                </div>
+            </div>
+            <div class="body" :style="backgroundColor? `background-color: ${backgroundColor}`: ''">
+                <slot/>
             </div>
         </div>
-        <div class="body" :style="backgroundColor? `background-color: ${backgroundColor}`: ''">
-            <slot/>
-        </div>
-    </div>
+    </transition>
+
 </template>
 
 <script>
@@ -33,7 +39,7 @@ export default {
     data(){
         return {
             positionX: 0,
-            positionY: 0
+            positionY: 0,
         }
     },
     mounted() {
@@ -95,15 +101,21 @@ $height-operations: 14px;
             overflow: hidden;
             &.close{
                 background: linear-gradient(to top, $red, lighten($red, 10%)) ;
+                &:hover{
+                    background: darken(saturate($red, 20%), 0.2);
+                }
             }
             &.mini{
                 background: linear-gradient(to top, $orange, lighten($orange, 10%)) ;
+                &:hover{
+                    background: darken(saturate($orange, 20%), 0.2);
+                }
             }
             &.fullscreen{
                 background: linear-gradient(to top, $green, lighten($green, 10%)) ;
-            }
-            &:hover{
-                background-color: $green;
+                &:hover{
+                    background: darken(saturate($green, 20%), 0.2);
+                }
             }
         }
     }
