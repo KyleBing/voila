@@ -4,7 +4,7 @@
         leave-active-class="animate__animated animate__bounceOutRight"
     >
         <div class="floating-panel" :style="`top: ${positionY}px; left: ${positionX}px; width: ${width}px`">
-            <div class="header" draggable="true" ref="header">
+            <div class="header" ref="header">
                 <div class="title">{{title}}</div>
                 <div class="operations">
                     <div class="operation-item close"></div>
@@ -40,27 +40,35 @@ export default {
         return {
             positionX: 0,
             positionY: 0,
+            isMouseDown: false
         }
     },
     mounted() {
         this.positionY = this.top
         this.positionX = this.left
 
-        this.$refs.header.addEventListener('dragstart', event => {
-        })
-        this.$refs.header.addEventListener('dragend', event => {
-            this.positionX = event.offsetX + this.positionX - event.target.offsetWidth / 2
-            this.positionY = event.offsetY + this.positionY - event.target.offsetHeight / 2
-        })
-        this.$refs.header.addEventListener('drag', event => {
-            this.positionX = event.offsetX + this.positionX - event.target.offsetWidth / 2
-            this.positionY = event.offsetY + this.positionY - event.target.offsetHeight / 2
+        this.$refs.header.addEventListener('mousedown', event => {
 
+            this.isMouseDown = true
+        })
+        this.$refs.header.addEventListener('mouseup', event => {
+            this.isMouseDown = false
+            this.$refs.header.removeEventListener('mousedown', null)
+            this.$refs.header.removeEventListener('mousemove', null)
+
+            this.positionX = event.offsetX + this.positionX - event.target.offsetWidth / 2
+            this.positionY = event.offsetY + this.positionY - event.target.offsetHeight / 2
+        })
+        this.$refs.header.addEventListener('mousemove', event => {
+            if (this.isMouseDown){
+                this.positionX = event.offsetX + this.positionX - event.target.offsetWidth / 2
+                this.positionY = event.offsetY + this.positionY - event.target.offsetHeight / 2
+            }
         })
     },
     beforeUnmount() {
-        this.$refs.header.removeEventListener('mousedown', null)
         this.$refs.header.removeEventListener('mouseup', null)
+        this.$refs.header.removeEventListener('mousedown', null)
         this.$refs.header.removeEventListener('mousemove', null)
     }
 

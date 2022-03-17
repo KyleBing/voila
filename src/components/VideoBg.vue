@@ -1,6 +1,5 @@
 <template>
-<!--    <video src="../assets/video/bg-1.mp4"-->
-    <video src="../assets/video/bg-2.mp4"
+    <video src="../assets/video/bg-1.mp4"
            autoplay
            muted
            loop="true"
