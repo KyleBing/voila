@@ -7,9 +7,15 @@
 import { CountUp } from "countup.js"
 export default {
     name: "Count",
+    props: {
+        endVal: {
+            type: Number,
+            default: 100
+        }
+    },
     mounted() {
         setTimeout(()=>{
-            let countUp = new CountUp(this.$refs.countUp, 537, {
+            let countUp = new CountUp(this.$refs.countUp, this.endVal, {
 
             })
             if (!countUp.error){

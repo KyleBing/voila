@@ -1,7 +1,11 @@
 <template>
     <div class="home" :style="`height: ${height}px; width: ${width}px`">
-        <FloatingPanel title="demo">
-            <Count/>
+        <FloatingPanel
+            :left="20*item"
+            :top="20*item"
+            :title="`demo-${item}`"
+            v-for="item in 10" :key="item">
+            <Count :end-val="34 * item"/>
         </FloatingPanel>
 
         <VideoBg/>
@@ -26,6 +30,10 @@ export default {
             height: 1080,
             width: 1920
         }
+    },
+    mounted() {
+        this.height = innerHeight
+        this.width = innerWidth
     }
 }
 </script>
