@@ -1,9 +1,9 @@
 <template>
     <transition
-        enter-active-class="animate__animated animate__backInDown"
-        leave-active-class="animate__animated animate__bounceOutRight"
+        enter-active-class="animate__animated animate__fadeInTopLeft"
+        leave-active-class="animate__animated animate__bounceOutDown"
     >
-        <div class="floating-panel" :style="`top: ${positionY}px; left: ${positionX}px; width: ${width}px`">
+        <div class="floating-panel" v-show="isShow" :style="`top: ${positionY}px; left: ${positionX}px; width: ${width}px`">
             <div class="header" ref="header">
                 <div class="title">{{title}}</div>
                 <div class="operations">
@@ -21,6 +21,9 @@
 </template>
 
 <script>
+
+import interact from 'interactjs'
+
 export default {
     name: "FloatingPanel",
     props: {
@@ -40,36 +43,52 @@ export default {
         return {
             positionX: 0,
             positionY: 0,
-            isMouseDown: false
+            isMouseDown: false,
+            isShow: false // 用于触发 transition 动画
         }
     },
     mounted() {
+        this.isShow = true
+
         this.positionY = this.top
         this.positionX = this.left
 
-        this.$refs.header.addEventListener('mousedown', event => {
+        interact(this.$refs.header)
+            .draggable({
+                // enable inertial throwing
+                inertia: true,
+                // 是否保持 dom 元素在其父 dom 中
+                modifiers: [
+                    interact.modifiers.restrictRect({
+                        restriction: 'parent',
+                        endOnly: true
+                    })
+                ],
+                // enable autoScroll
+                autoScroll: true,
 
-            this.isMouseDown = true
-        })
-        this.$refs.header.addEventListener('mouseup', event => {
-            this.isMouseDown = false
-            this.$refs.header.removeEventListener('mousedown', null)
-            this.$refs.header.removeEventListener('mousemove', null)
+                listeners: {
+                    // 移动事件
+                    move: this.dragMoveListener,
 
-            this.positionX = event.offsetX + this.positionX - event.target.offsetWidth / 2
-            this.positionY = event.offsetY + this.positionY - event.target.offsetHeight / 2
-        })
-        this.$refs.header.addEventListener('mousemove', event => {
-            if (this.isMouseDown){
-                this.positionX = event.offsetX + this.positionX - event.target.offsetWidth / 2
-                this.positionY = event.offsetY + this.positionY - event.target.offsetHeight / 2
-            }
-        })
+                    // 移动结束事件
+                    end: this.dragMoveListener
+                }
+            })
+        window.dragMoveListener = this.dragMoveListener
     },
     beforeUnmount() {
         this.$refs.header.removeEventListener('mouseup', null)
         this.$refs.header.removeEventListener('mousedown', null)
         this.$refs.header.removeEventListener('mousemove', null)
+    },
+    methods: {
+        dragMoveListener(event){
+            // console.log(event)
+            this.positionX = this.positionX + event.dx
+            this.positionY = this.positionY + event.dy
+            console.log(this.positionX, this.positionY)
+        },
     }
 
 }

@@ -10,7 +10,7 @@
 
         <PanelCode/>
 
-        <VideoBg/>
+<!--        <VideoBg/>-->
     </div>
 </template>
 
@@ -39,6 +39,7 @@ export default {
 
 <style lang="scss" scoped>
 .home {
+    background-color: gray;
     overflow: hidden;
     position: relative;
     display: flex;
