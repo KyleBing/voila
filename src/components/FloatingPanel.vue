@@ -5,10 +5,10 @@
     >
         <div class="floating-panel shadow"
              v-show="isShow"
-             :style="`top: ${positionY}px; left: ${positionX}px; width: ${width}px; height: ${height? height + 'px': 'auto'}`"
+             :style="`top: ${positionY}px; left: ${positionX}px; width: ${width}px; ${height? 'height: ' + height + 'px': ''};`"
         >
             <div class="header" ref="header">
-                <div class="title">{{title}}</div>
+                <div class="title">{{title || 'title'}}</div>
                 <div class="operations">
                     <div class="operation-item close" @click="closePanel"></div>
                     <div class="operation-item mini" @click="closePanel"></div>
@@ -61,8 +61,8 @@ export default {
     mounted() {
         this.isShow = true
 
-        this.positionY = this.top
-        this.positionX = this.left
+        this.positionY = this.top || 0
+        this.positionX = this.left || 0
 
         interact(this.$refs.header)
             .draggable({
@@ -122,7 +122,7 @@ export default {
 
 $height-header: 24px;
 $padding-header: 4px;
-$height-operations: 14px;
+$height-operations: 13px;
 
 .floating-panel{
     position: absolute;
@@ -185,12 +185,6 @@ $height-operations: 14px;
     &:hover{
         background-color: $bg-panel-header-active;
     }
-    &:after{
-        content: '';
-        display: block;
-        clear: both;
-        height: 0;
-    }
 }
 
 .body{
@@ -199,6 +193,7 @@ $height-operations: 14px;
     border: 1px solid transparentize($blue, 0.8);
     border-top: none;
     padding: 10px;
+    height: 100%;
     background-color: transparentize($blue, 0.4);
     @extend .glass-blur
 }

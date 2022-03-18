@@ -1,7 +1,6 @@
 <template>
     <FloatingPanel
-        :left="400"
-        :top="300"
+        :left="40" :top="350"
         title="Threejs"
         :width="600"
         :height="600"
