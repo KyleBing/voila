@@ -3,7 +3,10 @@
         enter-active-class="animate__animated animate__fadeInTopLeft"
         leave-active-class="animate__animated animate__bounceOutDown animate__fast"
     >
-        <div class="floating-panel shadow" v-show="isShow" :style="`top: ${positionY}px; left: ${positionX}px; width: ${width}px`">
+        <div class="floating-panel shadow"
+             v-show="isShow"
+             :style="`top: ${positionY}px; left: ${positionX}px; width: ${width}px; height: ${height? height + 'px': 'auto'}`"
+        >
             <div class="header" ref="header">
                 <div class="title">{{title}}</div>
                 <div class="operations">
@@ -12,7 +15,7 @@
                     <div class="operation-item fullscreen"></div>
                 </div>
             </div>
-            <div class="body" :style="backgroundColor? `background-color: ${backgroundColor}`: ''">
+            <div class="body" :style="bodyStyle">
                 <slot/>
             </div>
         </div>
@@ -34,17 +37,25 @@ export default {
         top: 0,
         left: 0,
         backgroundColor: '',
-        width: {
+        width: {// 面板宽度
             type: Number,
             default: 400
-        } // 面板宽度
+        },
+        height: {// 面板高度
+            type: Number,
+            default: 0
+        },
+        noPadding: {
+            type: Boolean,
+            default: false
+        }
     },
     data(){
         return {
             positionX: 0,
             positionY: 0,
             isMouseDown: false,
-            isShow: false // 用于触发 transition 动画
+            isShow: false, // 用于触发 transition 动画
         }
     },
     mounted() {
@@ -91,6 +102,14 @@ export default {
         },
         closePanel(){
             this.isShow = false
+        }
+    },
+    computed: {
+        bodyStyle(){
+            let styleList = []
+            styleList.push(this.backgroundColor? `background-color: ${this.backgroundColor}`: '' )
+            styleList.push(this.noPadding?'padding: 0' : 'padding: 20px')
+            return styleList.join('; ')
         }
     }
 

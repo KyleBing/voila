@@ -8,8 +8,8 @@
             <Count :end-val="34 * item"/>
         </FloatingPanel>
 
-        <PanelCode/>
-
+        <CardCoding/>
+        <CardThreejs/>
 <!--        <VideoBg/>-->
     </div>
 </template>
@@ -18,7 +18,8 @@
 import Count from "@/components/Count";
 import FloatingPanel from "@/components/FloatingPanel";
 import VideoBg from "@/components/VideoBg";
-import PanelCode from "@/components/PanelCode";
+import CardCoding from "@/cards/CardCoding";
+import CardThreejs from "@/cards/CardThreejs";
 
 import {mapState} from 'vuex'
 
@@ -26,7 +27,8 @@ import {mapState} from 'vuex'
 export default {
     name: 'Home',
     components: {
-        PanelCode,
+        CardThreejs,
+        CardCoding,
         VideoBg,
         FloatingPanel,
         Count
