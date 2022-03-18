@@ -1,14 +1,14 @@
 <template>
     <transition
         enter-active-class="animate__animated animate__fadeInTopLeft"
-        leave-active-class="animate__animated animate__bounceOutDown"
+        leave-active-class="animate__animated animate__bounceOutDown animate__fast"
     >
-        <div class="floating-panel" v-show="isShow" :style="`top: ${positionY}px; left: ${positionX}px; width: ${width}px`">
+        <div class="floating-panel shadow" v-show="isShow" :style="`top: ${positionY}px; left: ${positionX}px; width: ${width}px`">
             <div class="header" ref="header">
                 <div class="title">{{title}}</div>
                 <div class="operations">
-                    <div class="operation-item close"></div>
-                    <div class="operation-item mini"></div>
+                    <div class="operation-item close" @click="closePanel"></div>
+                    <div class="operation-item mini" @click="closePanel"></div>
                     <div class="operation-item fullscreen"></div>
                 </div>
             </div>
@@ -87,8 +87,11 @@ export default {
             // console.log(event)
             this.positionX = this.positionX + event.dx
             this.positionY = this.positionY + event.dy
-            console.log(this.positionX, this.positionY)
+            // console.log(this.positionX, this.positionY)
         },
+        closePanel(){
+            this.isShow = false
+        }
     }
 
 }
@@ -105,15 +108,23 @@ $height-operations: 14px;
 .floating-panel{
     position: absolute;
     min-width: 400px;
-    min-height: 200px;
+    min-height: 100px;
+    overflow: hidden;
+    @include border-radius(10px);
+    &.shadow{
+        @include box-shadow(2px 2px 15px rgba(0,0,0,0.2))
+    }
 }
 .header{
-    @include border-radius(10px 10px 0 0 );
     border: 1px solid $border;
     border-bottom: none;
     padding: $padding-header;
     background-color: $bg-panel-header;
+    @include border-radius(10px 10px 0 0 );
     position: relative;
+    &:hover{
+        background-color: white;
+    }
     .operations{
         left: math.div($height-header - $height-operations, 2);
         top: math.div($height-header - $height-operations, 2);
@@ -125,23 +136,24 @@ $height-operations: 14px;
             width: $height-operations;
             height: $height-operations;
             @include border-radius(20px);
+            cursor: default;
             overflow: hidden;
             &.close{
                 background: linear-gradient(to top, $red, lighten($red, 10%)) ;
                 &:hover{
-                    background: darken(saturate($red, 20%), 0.2);
+                    background: darken(saturate($red, 20%), 10%);
                 }
             }
             &.mini{
                 background: linear-gradient(to top, $orange, lighten($orange, 10%)) ;
                 &:hover{
-                    background: darken(saturate($orange, 20%), 0.2);
+                    background: darken(saturate($orange, 20%), 10%);
                 }
             }
             &.fullscreen{
                 background: linear-gradient(to top, $green, lighten($green, 10%)) ;
                 &:hover{
-                    background: darken(saturate($green, 20%), 0.2);
+                    background: darken(saturate($green, 20%), 15%);
                 }
             }
         }
@@ -153,6 +165,12 @@ $height-operations: 14px;
     }
     &:hover{
         background-color: $bg-panel-header-active;
+    }
+    &:after{
+        content: '';
+        display: block;
+        clear: both;
+        height: 0;
     }
 }
 
