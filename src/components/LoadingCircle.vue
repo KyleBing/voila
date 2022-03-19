@@ -3,7 +3,6 @@
         <div class="lv1"></div>
         <div class="lv2"></div>
         <div class="lv3"></div>
-
     </div>
 </template>
 
@@ -39,59 +38,67 @@ $height-circle: 200px;
     left: 50%;
 }
 
+$lv1-size: $height-circle * 0.80;
 .lv1{
-    $lv-size: $height-circle * 0.60;
-    border-right: $lv-size/2 solid $blue;
-    border-left: $lv-size/2 solid $purple;
-    width: $lv-size;
-    height: $lv-size;
-    @include transform(translate(-($lv-size/2), -($lv-size/2)));
-    animation: rotate infinite 1s;
-    -webkit-animation-timing-function: linear;
-    animation-timing-function: linear;
-}
-.lv2{
-    $lv-size: $height-circle * 0.40;
-    border-right: $lv-size/2 solid $red;
-    border-left: $lv-size/2 solid $orange;
-    width: $lv-size;
-    height: $lv-size;
-    @include transform(translate(-($lv-size/2), -($lv-size/2)));
-    animation: rotate infinite 1.5s;
-    -webkit-animation-timing-function: linear;
-    animation-timing-function: linear;
-}
-.lv3{
-    $lv-size: $height-circle * 0.26;
-    border-right: $lv-size/2 solid $green;
-    border-left: $lv-size/2 solid $yellow;
-    width: $lv-size;
-    height: $lv-size;
-    @include transform(translate(-($lv-size/2), -($lv-size/2)));
-    animation: rotate infinite 2s;
+    border-top: $lv1-size/2 solid $blue;
+    border-bottom: $lv1-size/2 solid $purple;
+    width: $lv1-size;
+    height: $lv1-size;
+    @include transform(translate(-($lv1-size/2), -($lv1-size/2)));
+    animation: rotate-1 infinite 1s;
     -webkit-animation-timing-function: linear;
     animation-timing-function: linear;
 }
 
-@keyframes rotate {
-    from {
-        transform-origin: 50% 50%;
-        transform: rotate(0deg)
-    }
-    to {
-        transform-origin: 50% 50%;
-        transform: rotate(360deg)
-    }
+$lv2-size: $height-circle * 0.50;
+.lv2{
+    border-right: $lv2-size/2 solid $yellow;
+    border-left: $lv2-size/2 solid $green;
+    width: $lv2-size;
+    height: $lv2-size;
+    @include transform(translate(-($lv2-size/2), -($lv2-size/2)));
+    animation: rotate-2 infinite 1.5s;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
 }
-@-webkit-keyframes rotate {
-    from {
-        transform-origin: 50% 50%;
-        transform: rotate(0deg)
-    }
-    to {
-        transform-origin: 50% 50%;
-        transform: rotate(360deg)
-    }
+
+$lv3-size: $height-circle * 0.3;
+.lv3{
+    border-top: $lv3-size/2 solid $magenta;
+    border-bottom: $lv3-size/2 solid white;
+    width: $lv3-size;
+    height: $lv3-size;
+    @include transform(translate(-($lv3-size/2), -($lv3-size/2)));
+    animation: rotate-3 infinite 2s;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+}
+
+@keyframes rotate-1 {
+    from {transform-origin: 0 0;transform: rotate(0deg) translate(-($lv1-size/2), -($lv1-size/2))}
+    to {transform-origin: 0 0;transform: rotate(360deg) translate(-($lv1-size/2), -($lv1-size/2))}
+}
+@-webkit-keyframes rotate-1 {
+    from {transform-origin: 0 0;transform: rotate(0deg) translate(-($lv1-size/2), -($lv1-size/2))}
+    to {transform-origin: 0 0;transform: rotate(360deg) translate(-($lv1-size/2), -($lv1-size/2))}
+}
+
+@keyframes rotate-2 {
+    from {transform-origin: 0 0;transform: rotate(0deg) translate(-($lv2-size/2), -($lv2-size/2))}
+    to {transform-origin: 0 0;transform: rotate(-360deg) translate(-($lv2-size/2), -($lv2-size/2))}
+}
+@-webkit-keyframes rotate-2 {
+    from {transform-origin: 0 0;transform: rotate(0deg) translate(-($lv2-size/2), -($lv2-size/2))}
+    to {transform-origin: 0 0;transform: rotate(-360deg) translate(-($lv2-size/2), -($lv2-size/2))}
+}
+
+@keyframes rotate-3 {
+    from {transform-origin: 0 0;transform: rotate(0deg) translate(-($lv3-size/2), -($lv3-size/2))}
+    to {transform-origin: 0 0;transform: rotate(360deg) translate(-($lv3-size/2), -($lv3-size/2))}
+}
+@-webkit-keyframes rotate-3 {
+    from {transform-origin: 0 0;transform: rotate(0deg) translate(-($lv3-size/2), -($lv3-size/2))}
+    to {transform-origin: 0 0;transform: rotate(360deg) translate(-($lv3-size/2), -($lv3-size/2))}
 }
 
 </style>

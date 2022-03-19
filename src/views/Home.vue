@@ -10,7 +10,7 @@
 
         <CardCoding/>
         <CardThreejs/>
-        <FloatingPanel :left="700" :top="500">
+        <FloatingPanel background-color="black" :left="700" :top="500">
             <LoadingCircle/>
         </FloatingPanel>
         <VideoBg/>
