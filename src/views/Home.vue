@@ -11,7 +11,7 @@
         <CardCoding/>
         <CardThreejs/>
         <CardLoadingCircle/>
-        <VideoBg/>
+<!--        <VideoBg/>-->
     </div>
 </template>
 
