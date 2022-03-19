@@ -1,11 +1,11 @@
 <template>
-    <video src="../assets/video/bg-1.mp4"
+<!--    <video src="../assets/video/bg-1.mp4"
            autoplay
            muted
            loop="true"
            :style="`min-width: ${insets.width}px; min-height: ${insets.height}px`">
 
-    </video>
+    </video>-->
 </template>
 
 <script>
