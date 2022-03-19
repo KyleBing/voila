@@ -31,6 +31,7 @@ export default {
 
 <style scoped lang="scss">
 .count{
+    text-align: right;
     color: white;
     font-size: 150px;
     font-family: 'DS-Digital';

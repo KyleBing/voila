@@ -1,6 +1,6 @@
 <template>
     <transition
-        enter-active-class="animate__animated animate__fadeInTopLeft"
+        :enter-active-class="`animate__animated ${animateInClass || ''}`"
         leave-active-class="animate__animated animate__bounceOutDown animate__fast"
     >
         <div class="floating-panel shadow"
@@ -48,6 +48,10 @@ export default {
         noPadding: {
             type: Boolean,
             default: false
+        },
+        animateInClass: {
+            type: String,
+            default: 'animate__fadeInTopLeft'
         }
     },
     data(){
@@ -105,10 +109,11 @@ export default {
         }
     },
     computed: {
-        bodyStyle(){
+        bodyStyle(){ // 计算 body 的样式
             let styleList = []
             styleList.push(this.backgroundColor? `background-color: ${this.backgroundColor}`: '' )
             styleList.push(this.noPadding?'padding: 0' : 'padding: 20px')
+            styleList.push(this.backgroundColor === 'black'?'border-color: #444' : '')
             return styleList.join('; ')
         }
     }

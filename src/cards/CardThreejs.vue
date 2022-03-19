@@ -2,8 +2,8 @@
     <FloatingPanel
         :left="40" :top="350"
         title="Threejs"
-        :width="600"
-        :height="600"
+        :width="width"
+        :height="height"
         :no-padding="true"
         background-color="black"
     >
@@ -30,7 +30,9 @@ export default {
         return {
             renderer: null,
             text: null,
-            spotLight: null
+            spotLight: null,
+            height: 400,
+            width: 600
         }
     },
     beforeUnmount() {
@@ -44,12 +46,6 @@ export default {
     },
     computed: {
         ...mapState(['insets']),
-        insets(){
-            return {
-                width: 600,
-                height: 600
-            }
-        }
     },
     methods: {
         init(){
@@ -58,15 +54,15 @@ export default {
 
             // high resolution
             renderer.setPixelRatio(window.devicePixelRatio)  // 设置像素比例，匹配屏幕
-            renderer.setSize( this.insets.width, this.insets.height)
+            renderer.setSize( this.width, this.height)
             // 投影设置
             renderer.shadowMap.enabled = true // 默认为 false
             renderer.shadowMap.type = Three.PCFSoftShadowMap; // default THREE.PCFShadowMap
             this.$refs.dom.appendChild( renderer.domElement )
 
             // CAMERA
-            camera = new Three.PerspectiveCamera( 30, this.insets.width / this.insets.height, 1, 5000 )
-            camera.position.set( 200, 100, 200 )
+            camera = new Three.PerspectiveCamera( 30, this.width / this.height, 1, 5000 )
+            camera.position.set( 100, 60, 100 )
             camera.lookAt( 0, 0, 0 )
 
             scene = new Three.Scene()

@@ -5,14 +5,12 @@
             :top="20*item"
             :title="`demo-${item}`"
             v-for="item in 4" :key="item">
-            <Count :end-val="34 * item"/>
+            <Count :end-val="2358 * item"/>
         </FloatingPanel>
 
         <CardCoding/>
         <CardThreejs/>
-        <FloatingPanel background-color="black" :left="700" :top="500">
-            <LoadingCircle/>
-        </FloatingPanel>
+        <CardLoadingCircle/>
         <VideoBg/>
     </div>
 </template>
@@ -26,11 +24,13 @@ import CardCoding from "@/cards/CardCoding";
 import CardThreejs from "@/cards/CardThreejs";
 
 import LoadingCircle from "@/components/LoadingCircle";
+import CardLoadingCircle from "@/cards/CardLoadingCircle";
 
 
 export default {
     name: 'Home',
     components: {
+        CardLoadingCircle,
         LoadingCircle,
         CardThreejs,
         CardCoding,
