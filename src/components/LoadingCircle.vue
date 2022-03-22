@@ -45,7 +45,7 @@ $lv1-size: $height-circle * 0.80;
     width: $lv1-size;
     height: $lv1-size;
     @include transform(translate(-($lv1-size/2), -($lv1-size/2)));
-    animation: rotate-1 infinite 1s;
+    animation: rotate-1 infinite 4s;
     -webkit-animation-timing-function: linear;
     animation-timing-function: linear;
 }
@@ -57,7 +57,7 @@ $lv2-size: $height-circle * 0.50;
     width: $lv2-size;
     height: $lv2-size;
     @include transform(translate(-($lv2-size/2), -($lv2-size/2)));
-    animation: rotate-2 infinite 1.5s;
+    animation: rotate-2 infinite 2s;
     -webkit-animation-timing-function: linear;
     animation-timing-function: linear;
 }
@@ -69,7 +69,7 @@ $lv3-size: $height-circle * 0.3;
     width: $lv3-size;
     height: $lv3-size;
     @include transform(translate(-($lv3-size/2), -($lv3-size/2)));
-    animation: rotate-3 infinite 2s;
+    animation: rotate-3 infinite 3s;
     -webkit-animation-timing-function: linear;
     animation-timing-function: linear;
 }

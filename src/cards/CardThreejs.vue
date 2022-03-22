@@ -36,9 +36,17 @@ export default {
         }
     },
     beforeUnmount() {
+        console.log('before unmount:')
         renderer.dispose()
         scene.dispose()
         text.dispose()
+        scene.dispose()
+        camera.dispose()
+        renderer.dispose()
+        text.dispose()
+        spotlightHelper1.dispose()
+        spotlightHelper2.dispose()
+        spotlightHelper3.dispose()
     },
     mounted() {
         this.init()
@@ -61,7 +69,7 @@ export default {
 
             // CAMERA
             camera = new Three.PerspectiveCamera( 30, this.width / this.height, 1, 5000 )
-            camera.position.set( 200, 150, 200 )
+            camera.position.set( 150, 100, 150 )
             camera.lookAt( 0, 0, 0 )
 
             scene = new Three.Scene()
@@ -180,9 +188,9 @@ export default {
         },
         // 动画执行方法
         animate(){
-            // this.cube.rotation.x += 0.01
-            this.cube.rotation.y += 0.01 // 以 Y 轴为轴心旋转
-            text.rotation.y += 0.01 // 以 Y 轴为轴心旋转
+            scene.rotation.y += Math.PI / 7200
+            // this.cube.rotation.y += -0.01 // 以 Y 轴为轴心旋转
+            // text.rotation.y += -0.01 // 以 Y 轴为轴心旋转
             requestAnimationFrame(this.animate)  // 在下次动画更新时，使界面内容更新
             this.render()
         }

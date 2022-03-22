@@ -1,6 +1,6 @@
 <template>
     <FloatingPanel
-        :left="430" :top="520"
+        :left="430" :top="200"
         title="LoadingCircle"
         :width="0"
         background-color="black"

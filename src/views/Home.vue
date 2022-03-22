@@ -8,9 +8,9 @@
             <Count :end-val="2358 * item"/>
         </FloatingPanel>
 
-<!--        <CardCoding/>-->
+        <CardCoding/>
         <CardThreejs/>
-<!--        <CardLoadingCircle/>-->
+        <CardLoadingCircle/>
 <!--        <VideoBg/>-->
     </div>
 </template>

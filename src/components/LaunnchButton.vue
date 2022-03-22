@@ -29,13 +29,13 @@ export default {
     color: white;
     cursor: pointer;
     //border: 2px solid transparentize($blue, 0.7);
-    @include box-shadow(5px 5px transparentize($blue, 0.5));
+    //@include box-shadow(5px 5px transparentize($blue, 0.5));
     &:hover{
         background: linear-gradient(to top, $red, $orange);
         //background-color: red;
         color: white;
         animation: shadow-ripple 1s infinite;
-        @include box-shadow(5px 5px transparentize($orange, 0.5));
+        //@include box-shadow(5px 5px transparentize($orange, 0.5));
     }
 }
 @keyframes shadow-ripple {
