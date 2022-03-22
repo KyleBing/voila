@@ -2,12 +2,14 @@
     <FloatingPanel
         :left="430" :top="200"
         title="LoadingCircle"
-        :width="0"
+        :width="350"
         background-color="black"
         animate-in-class="animate__fadeInUp"
     >
         <LoadingCircle/>
-        <LaunchButton/>
+        <div class="btn-container">
+            <LaunchButton/>
+        </div>
     </FloatingPanel>
 </template>
 
@@ -27,4 +29,9 @@ export default {
 
 <style scoped lang="scss">
 @import "../assets/scss/plugin";
+.btn-container{
+    padding: 20px 30px;
+    display: flex;
+    justify-content: center;
+}
 </style>

@@ -12,13 +12,13 @@ export default {
     },
     mounted() {
     },
-
 }
 </script>
 
 <style scoped lang="scss">
 @import "../assets/scss/plugin";
 .launch-btn{
+    min-width: 250px;
     @include border-radius(5px);
     padding: 10px;
     letter-spacing: 1px;

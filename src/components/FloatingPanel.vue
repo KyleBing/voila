@@ -2,17 +2,18 @@
     <transition
         :enter-active-class="`animate__animated ${animateInClass || ''}`"
         leave-active-class="animate__animated animate__bounceOutDown animate__fast"
+        appear-active-class=""
     >
         <div class="floating-panel shadow"
              v-show="isShow"
-             :style="`top: ${positionY}px; left: ${positionX}px; width: ${width}px; ${height? 'height: ' + height + 'px': ''};`"
+             :style="`top: ${positionY}px; left: ${positionX}px; width: ${cardWidth}px; ${cardHeight? 'height: ' + cardHeight + 'px': ''};`"
         >
             <div class="header" ref="header">
                 <div class="title">{{title || 'title'}}</div>
                 <div class="operations">
                     <div class="operation-item close" @click="closePanel"></div>
                     <div class="operation-item mini" @click="closePanel"></div>
-                    <div class="operation-item fullscreen"></div>
+                    <div class="operation-item fullscreen" @click="fillWindow"></div>
                 </div>
             </div>
             <div class="body" :style="bodyStyle">
@@ -26,6 +27,7 @@
 <script>
 
 import interact from 'interactjs'
+import {mapState} from "vuex";
 
 export default {
     name: "FloatingPanel",
@@ -56,14 +58,20 @@ export default {
     },
     data(){
         return {
+            oldPositionX: 0,
+            oldPositionY: 0,
             positionX: 0,
             positionY: 0,
+            cardWidth: 0,
+            cardHeight: 0,
             isMouseDown: false,
             isShow: false, // 用于触发 transition 动画
         }
     },
     mounted() {
         this.isShow = true
+        this.cardWidth = this.width
+        this.cardHeight = this.height
 
         this.positionY = this.top || 0
         this.positionX = this.left || 0
@@ -106,9 +114,25 @@ export default {
         },
         closePanel(){
             this.isShow = false
+        },
+        fillWindow(){
+            if (this.insets.width === this.cardWidth){ // 已全屏
+                this.positionX = this.oldPositionX
+                this.positionY = this.oldPositionY
+                this.cardHeight = this.height
+                this.cardWidth = this.width
+            } else {
+                this.cardHeight = this.insets.height
+                this.cardWidth = this.insets.width
+                this.oldPositionX = this.positionX
+                this.oldPositionY = this.positionY
+                this.positionX = 0
+                this.positionY = 0
+            }
         }
     },
     computed: {
+        ...mapState(['insets']),
         bodyStyle(){ // 计算 body 的样式
             let styleList = []
             styleList.push(this.backgroundColor? `background-color: ${this.backgroundColor}`: '' )
@@ -131,7 +155,7 @@ $height-operations: 13px;
 
 .floating-panel{
     position: absolute;
-    min-width: 400px;
+    min-width: 300px;
     min-height: 100px;
     overflow: hidden;
     @include border-radius(10px);
