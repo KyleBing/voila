@@ -45,7 +45,7 @@ export default {
     }
     from{
         text-shadow: 10px 10px 10px transparentize(black, 1);
-        outline: 50px solid transparentize(white, 1);
+        outline: 30px solid transparentize(white, 1);
     }
 
 }

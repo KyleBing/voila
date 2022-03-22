@@ -22,25 +22,23 @@ import FloatingPanel from "@/components/FloatingPanel";
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import {FontLoader} from "three/examples/jsm/loaders/FontLoader.js";
 import {TextGeometry} from "three/examples/jsm/geometries/TextGeometry.js";
-let scene, camera, renderer, spotLight
+
+let scene, camera, renderer, text, spotlightHelper1, spotlightHelper2, spotlightHelper3
 
 export default {
     name: "CardThreejs",
     components: { FloatingPanel },
     data(){
         return {
-            renderer: null,
-            text: null,
-            spotLight: null,
             height: 400,
-            width: 600
+            width: 600,
+
         }
     },
     beforeUnmount() {
         renderer.dispose()
         scene.dispose()
-        this.text.dispose()
-        spotLight.dispose()
+        text.dispose()
     },
     mounted() {
         this.init()
@@ -63,7 +61,7 @@ export default {
 
             // CAMERA
             camera = new Three.PerspectiveCamera( 30, this.width / this.height, 1, 5000 )
-            camera.position.set( 100, 60, 100 )
+            camera.position.set( 200, 150, 200 )
             camera.lookAt( 0, 0, 0 )
 
             scene = new Three.Scene()
@@ -91,11 +89,11 @@ export default {
                     bevelSegments: 15
                 })
                 const textMaterial = new Three.MeshPhongMaterial({color: 0x0090ff})
-                this.text = new Three.Mesh(textGeometry, textMaterial)
-                this.text.position.set(0,12,0)
-                this.text.castShadow = true // 显示投影
+                text = new Three.Mesh(textGeometry, textMaterial)
+                text.position.set(0,12,0)
+                text.castShadow = true // 显示投影
                 // 添加到 scene
-                scene.add( this.text )
+                scene.add( text )
                 this.render() // 添加完成后渲染一下画面
             }, xhr => {}, err => {console.log(err)})
 
@@ -135,7 +133,7 @@ export default {
             scene.add( spotLight )
 
             // spotlight helper
-            let lightHelper = new Three.SpotLightHelper( spotLight )
+            spotlightHelper1 = new Three.SpotLightHelper( spotLight )
 
             let spotlight2 = new Three.SpotLight( 0xffffff ,1)
             spotlight2.position.set( -100, 100, -100 )
@@ -144,7 +142,7 @@ export default {
             spotlight2.distance = 300
             spotlight2.angle = Math.PI/ 6
             scene.add(spotlight2)
-            let lightHelper2 = new Three.SpotLightHelper( spotlight2 )
+            spotlightHelper2 = new Three.SpotLightHelper( spotlight2 )
 
             let spotlight3 = new Three.SpotLight( 0xffffff ,1)
             spotlight3.position.set( -100, 100, 100 )
@@ -153,12 +151,11 @@ export default {
             spotlight3.distance = 300
             spotlight3.angle = Math.PI/ 6
             scene.add(spotlight3)
-            let lightHelper3 = new Three.SpotLightHelper( spotlight3 )
+            spotlightHelper3 = new Three.SpotLightHelper( spotlight3 )
 
-            // scene.add( lightHelper )
-            // scene.add( lightHelper2 )
-            // scene.add( lightHelper3 )
-
+            scene.add( spotlightHelper1 )
+            scene.add( spotlightHelper2 )
+            scene.add( spotlightHelper3 )
 
             // 查看控制器
             const controls = new OrbitControls( camera, renderer.domElement )
@@ -172,16 +169,20 @@ export default {
             scene.add( cameraHelper );
 
             this.render() // 渲染界面
+
+            setTimeout(() => {
+               this.animate()
+            }, 200)
         },
         // 渲染界面
         render(){
-            renderer.render( scene, camera )
+            renderer.render(scene, camera)
         },
         // 动画执行方法
         animate(){
             // this.cube.rotation.x += 0.01
             this.cube.rotation.y += 0.01 // 以 Y 轴为轴心旋转
-            this.text.rotation.y += 0.01 // 以 Y 轴为轴心旋转
+            text.rotation.y += 0.01 // 以 Y 轴为轴心旋转
             requestAnimationFrame(this.animate)  // 在下次动画更新时，使界面内容更新
             this.render()
         }
