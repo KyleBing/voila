@@ -10,6 +10,7 @@
     "animate.css": "^4.1.1",
     "core-js": "^3.6.5",
     "countup.js": "^2.1.0",
+    "filemanager-webpack-plugin": "^6.1.7",
     "interactjs": "^1.10.11",
     "register-service-worker": "^1.7.1",
     "three": "^0.138.3",
