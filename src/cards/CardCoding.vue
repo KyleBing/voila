@@ -5,7 +5,7 @@
         title="代码"
         :width="1000"
         background-color="black"
-        animate-in-class="animate__animated"
+        animate-in-class="animate__fadeInRight"
     >
         <pre class="code">{{showingCode}}</pre>
     </FloatingPanel>
@@ -13,9 +13,10 @@
 
 <script>
 import FloatingPanel from "@/components/FloatingPanel";
+import LaunchButton from "@/components/LaunnchButton";
 export default {
     name: "CardCoding",
-    components: {FloatingPanel},
+    components: {LaunchButton, FloatingPanel},
 
     data(){
         return {

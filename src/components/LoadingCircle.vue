@@ -23,7 +23,7 @@ export default {
 <style scoped lang="scss">
 @import "../assets/scss/plugin";
 
-$height-circle: 200px;
+$height-circle: 150px;
 
 .loading-circle{
     margin: 0 auto;

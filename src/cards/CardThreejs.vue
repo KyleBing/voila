@@ -6,6 +6,7 @@
         :height="height"
         :no-padding="true"
         background-color="black"
+        animate-in-class="animate__fadeInLeft"
     >
         <div class="display" ref="dom">
 
