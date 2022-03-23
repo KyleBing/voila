@@ -6,9 +6,15 @@
     >
         <div class="floating-panel shadow"
              v-show="isShow"
-             :style="`top: ${positionY}px; left: ${positionX}px; width: ${cardWidth}px; ${cardHeight? 'height: ' + cardHeight + 'px': ''};`"
+             :style="`
+                 z-index: ${zIndex};
+                 top: ${positionY}px;
+                 left: ${positionX}px;
+                 width: ${cardWidth}px;
+                 ${cardHeight? 'height: ' + cardHeight + 'px': ''};
+             `"
         >
-            <div class="header" ref="header">
+            <div class="header" ref="header" @click="updatePanelZIndex">
                 <div class="title">{{title || 'title'}}</div>
                 <div class="operations">
                     <div class="operation-item close" @click="closePanel"></div>
@@ -27,7 +33,7 @@
 <script>
 
 import interact from 'interactjs'
-import {mapState} from "vuex";
+import {mapMutations, mapState} from "vuex";
 
 export default {
     name: "FloatingPanel",
@@ -66,6 +72,7 @@ export default {
             cardHeight: 0,
             isMouseDown: false,
             isShow: false, // 用于触发 transition 动画
+            zIndex: 1 // z-index
         }
     },
     mounted() {
@@ -91,9 +98,10 @@ export default {
                 autoScroll: true,
 
                 listeners: {
-                    // 移动事件
+                    // 拖动开始
+                    start: this.updatePanelZIndex,
+                    // 拖动中
                     move: this.dragMoveListener,
-
                     // 移动结束事件
                     end: this.dragMoveListener
                 }
@@ -106,6 +114,12 @@ export default {
         this.$refs.header.removeEventListener('mousemove', null)
     },
     methods: {
+        ...mapMutations(['SET_LATEST_Z_INDEX']),
+        // 更新当前卡片的 z-index 在点击 .header 或拖动 .header 的时候都会触发
+        updatePanelZIndex(){
+            this.zIndex = this.lastZIndex + 1
+            this.SET_LATEST_Z_INDEX(this.zIndex)
+        },
         dragMoveListener(event){
             // console.log(event)
             this.positionX = this.positionX + event.dx
@@ -132,7 +146,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['insets']),
+        ...mapState(['insets', 'lastZIndex']),
         bodyStyle(){ // 计算 body 的样式
             let styleList = []
             styleList.push(this.backgroundColor? `background-color: ${this.backgroundColor}`: '' )
