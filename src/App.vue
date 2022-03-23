@@ -23,7 +23,5 @@ import {mapMutations} from 'vuex'
     }
 </script>
 <style lang="scss">
-@import "assets/scss/reset.css";
-@import "assets/scss/gutter";
-@import "assets/scss/font";
+@import "assets/scss/main";
 </style>

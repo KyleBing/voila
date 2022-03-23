@@ -1,12 +1,13 @@
 {
   "name": "voila",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@amap/amap-jsapi-loader": "^1.0.1",
     "animate.css": "^4.1.1",
     "core-js": "^3.6.5",
     "countup.js": "^2.1.0",

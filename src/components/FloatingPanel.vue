@@ -73,7 +73,7 @@ export default {
             cardHeight: 0,
             isMouseDown: false,
             isShow: false, // 用于触发 transition 动画
-            zIndex: 1 // z-index
+            zIndex: 1 // z-map
         }
     },
     mounted() {
@@ -116,7 +116,7 @@ export default {
     },
     methods: {
         ...mapMutations(['SET_LATEST_Z_INDEX']),
-        // 更新当前卡片的 z-index 在点击 .header 或拖动 .header 的时候都会触发
+        // 更新当前卡片的 z-map 在点击 .header 或拖动 .header 的时候都会触发
         updatePanelZIndex(){
             this.zIndex = this.lastZIndex + 1
             this.SET_LATEST_Z_INDEX(this.zIndex)

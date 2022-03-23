@@ -8,7 +8,7 @@
     >
         <LoadingCircle/>
         <div class="btn-container">
-            <LaunchButton/>
+            <LaunchButton @click="$router.push({name: 'MapLoca'})"/>
         </div>
     </FloatingPanel>
 </template>
