@@ -10,14 +10,16 @@ import AMapLoader from '@amap/amap-jsapi-loader'
 import ICON from "@/components/icons"
 import {mapState} from "vuex"
 import GEO_PROVINCE_DATA from './province.json'
+import LaunchButton from "@/components/LaunnchButton";
 
 let AMap = null
 
-const TARGET_POINT = [121.504673, 25.046711] // 目标坐标
-const DESTENATION_POINT = [115.504673, 20.046711] // 目标坐标
+const TARGET_POINT = [121.504673, 25.046711] // 目标坐标 台湾
+const DESTENATION_POINT = [110.504673, 28.046711] // 目标坐标
 
 export default {
     name: "MapLoca",
+    components: {LaunchButton},
     data() {
         return {
             isLoading: false,
@@ -176,10 +178,8 @@ export default {
                     // texture: 'https://a.amap.com/Loca/static/static/green.png',
                 })
                 this.loca.add(scatterLayer2)
-                setTimeout(() => {
-                    this.loca.animate.start() // 开始动画
-                })
 
+                // this.loca.animate.start() // 开始动画
             }
             loadLocation()
 
@@ -196,71 +196,10 @@ export default {
             }
             loadLine()
 
-            this.loca.viewControl.addAnimates([
-                {
-                center: {
-                    value: TARGET_POINT, // 动画终点的经纬度
-                    control: [DESTENATION_POINT, TARGET_POINT], // 过渡中的轨迹控制点，地图上的经纬度
-                    timing: [0.42, 0, 0.4, 1], // 动画时间控制点
-                    duration: 2000, // 过渡时间，毫秒（ms）
-                },
-                // 俯仰角动画
-/*                pitch: {
-                    value: 45, // 动画终点的俯仰角度
-                    control: [[0, -60], [1, 45]], // 控制器，x是0～1的起始区间，y是pitch值
-                    timing: [0, 0, 1, 1], // 这个值是线性过渡
-                    duration: 8000,
-                },*/
-/*                // 缩放等级动画
-                zoom: {
-                    value: 18, // 动画终点的地图缩放等级
-                    control: [[0, 17], [1, 18]], // 控制器，x是0～1的起始区间，y是zoom值
-                    timing: [0, 0, 1, 1],
-                    duration: 8000,
-                },*/
-                // 旋转动画
-/*                rotation: {
-                    value: 120, // 动画终点的地图旋转角度
-                    control: [[0, 0], [1, 120]], // 控制器，x是0～1的起始区间，y是rotation值
-                    timing: [0, 0, 1, 1],
-                    duration: 8000,
-                }*/
-            }],()=>{
-                this.loca.viewControl.addAnimates([{
-                    center: {
-                        value: TARGET_POINT, // 动画终点的经纬度
-                        control: [DESTENATION_POINT, TARGET_POINT], // 过渡中的轨迹控制点，地图上的经纬度
-                        timing: [0, 0, 1, 1], // 动画时间控制点
-                        duration: 8000, // 过渡时间，毫秒（ms）
-                    },
-
-                }],()=>{
-                    this.loca.viewControl.addAnimates([{
-                        center: {
-                            value: DESTENATION_POINT, // 动画终点的经纬度
-                            control: [TARGET_POINT, DESTENATION_POINT], // 过渡中的轨迹控制点，地图上的经纬度
-                            timing: [0, 0, 1, 1], // 动画时间控制点
-                            duration: 8000, // 过渡时间，毫秒（ms）
-                        },
-                    }],()=>{
-                        this.loca.viewControl.addAnimates([{
-                            // 旋转动画
-                            rotation: {
-                                value: 30, // 动画终点的地图旋转角度
-                                control: [[0, 120], [1, 180]], // 控制器，x是0～1的起始区间，y是rotation值
-                                timing: [0, 0, 1, 1],
-                                duration: 8000,
-                            }
-                        }],()=>{
-                        })
-                    })
-                })
-            })
+            this.animateStart()
 
             this.map.on('complete', ()=> {
-                setTimeout(()=>{
-                // this.loca.animate.start()
-                }, 2000); // 给地图一个加载的时间
+                this.loca.animate.start()
             })
 
         }).catch(e => {
@@ -310,6 +249,38 @@ export default {
         },
     },
     methods: {
+        animateStart(){
+            this.loca.viewControl.addAnimates([{
+                    center: {
+                        value: DESTENATION_POINT, // 动画终点的经纬度
+                        control: [TARGET_POINT, DESTENATION_POINT], // 过渡中的轨迹控制点，地图上的经纬度
+                        timing: [0.42, 0, 0.4, 1], // 动画时间控制点
+                        duration: 5000, // 过渡时间，毫秒（ms）
+                    },
+                    // 俯仰角动画
+                    pitch: {
+                        value: 60, // 动画终点的俯仰角度
+                        control: [[0, 0], [1, 60]], // 控制器，x是0～1的起始区间，y是pitch值
+                        timing: [0, 0, 1, 1], // 这个值是线性过渡
+                        duration: 5000,
+                    },
+                    // 缩放等级动画
+                    zoom: {
+                        value: 5, // 动画终点的地图缩放等级
+                        control: [[0, 8], [1, 5]], // 控制器，x是0～1的起始区间，y是zoom值
+                        timing: [0, 0, 1, 1],
+                        duration: 8000,
+                    },
+                    // 旋转动画
+                    rotation: {
+                        value: -30, // 动画终点的地图旋转角度
+                        control: [[0, 0], [1, -30]], // 控制器，x是0～1的起始区间，y是rotation值
+                        timing: [0, 0, 1, 1],
+                        duration: 8000,
+                    }
+                }],
+                () => {})
+        },
         resizeMap() {
             let mapContainer = document.getElementById('container')
             mapContainer.style.height = window.innerHeight + "px"
@@ -378,17 +349,6 @@ export default {
             })
             map.add(marker)
         }
-    },
-    watch: {
-        '$route'(to, from){
-            if (this.currentRouting) {
-                this.currentRouting.destroy() // 清除当前路线
-                this.map.clearMap() // 删除所有 Marker
-            }
-            this.activeLineObj = this.lines[parseInt(this.$route.params.lineId) - 1]
-            this.loadLine(this.map, this.activeLineObj)
-            this.loadLineLabels(this.map, this.activeLineObj)
-        },
     },
 
     beforeUnmount() {
