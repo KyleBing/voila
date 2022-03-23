@@ -5,6 +5,7 @@
         appear-active-class=""
     >
         <div class="floating-panel shadow"
+             @click="updatePanelZIndex"
              v-show="isShow"
              :style="`
                  z-index: ${zIndex};
@@ -14,7 +15,7 @@
                  ${cardHeight? 'height: ' + cardHeight + 'px': ''};
              `"
         >
-            <div class="header" ref="header" @click="updatePanelZIndex">
+            <div class="header" ref="header">
                 <div class="title">{{title || 'title'}}</div>
                 <div class="operations">
                     <div class="operation-item close" @click="closePanel"></div>
