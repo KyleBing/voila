@@ -68,12 +68,7 @@ export default {
                 map: this.map,
             })
 
-            let linkLayer = new Loca.LinkLayer({
-                zIndex: 20,
-                opacity: 1,
-                visible: true,
-                zooms: [2, 22],
-            })
+
 
             let scatterLayer2 = new Loca.ScatterLayer({
                 zIndex: 10,
@@ -164,6 +159,9 @@ export default {
             const geoDataLines = new Loca.GeoJSONSource({
                 data: this.dataLines,
             });
+            const geoDataLinesReverse = new Loca.GeoJSONSource({
+                data: this.dataLinesReverse,
+            });
 
 
             let loadLocation = () => {
@@ -183,6 +181,12 @@ export default {
             }
             loadLocation()
 
+            let linkLayer = new Loca.LinkLayer({
+                zIndex: 20,
+                opacity: 1,
+                visible: true,
+                zooms: [2, 22],
+            })
             let loadLine = () => {
                 linkLayer.setSource(geoDataLines)
                 linkLayer.setStyle({
@@ -194,7 +198,42 @@ export default {
                 })
                 this.loca.add(linkLayer)
             }
-            loadLine()
+            // loadLine()
+
+            // pulse layer
+            let pulseLayer = new Loca.PulseLinkLayer({
+                zIndex: 20,
+                opacity: 1,
+                visible: true,
+                zooms: [2, 22],
+            })
+            let loadPulse = () => {
+                pulseLayer.setSource(geoDataLinesReverse)
+                pulseLayer.setStyle({
+                    height: (index, item) => {
+                        return item.distance / 2
+                    },
+                    unit: 'meter',
+                    dash: [40000, 0, 40000, 0],
+                    lineWidth: function () {
+                        return [20000, 2000]; // 始末 节点的线段宽度
+                    },
+                    // altitude: 1000,
+                    smoothSteps: 100, // 曲线圆滑度
+                    speed: function (index, prop) {
+                        return 1000 + Math.random() * 200000;
+                    },
+                    flowLength: 100000,
+                    lineColors: function (index, feat) {
+                        return ['rgb(255,221,0)', 'rgb(255,141,27)', 'rgb(65,0,255)'];
+                    },
+                    maxHeightScale: 0.3, // 弧顶位置比例
+                    headColor: 'rgba(255, 255, 0, 1)',
+                    trailColor: 'rgb(255,84,84)',
+                })
+                this.loca.add(pulseLayer)
+            }
+            loadPulse()
 
             this.animateStart()
 
@@ -238,6 +277,26 @@ export default {
                         "coordinates": [
                             TARGET_POINT, // target location
                             co
+                        ]
+                    }
+                }
+            })
+            return {
+                "type": "FeatureCollection",
+                "features": tempData
+            }
+        },
+        dataLinesReverse(){
+            let tempData = GEO_PROVINCE_DATA.map(item => {
+                let co = item.center.split(',').map(item => Number(item))
+                return {
+                    "type": "Feature",
+                    "properties": {"province": item.name},
+                    "geometry": {
+                        "type": "LineString", // 线段
+                        "coordinates": [
+                            co,
+                            TARGET_POINT // target location
                         ]
                     }
                 }
