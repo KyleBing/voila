@@ -10,7 +10,6 @@ import AMapLoader from '@amap/amap-jsapi-loader'
 import ICON from "@/components/icons"
 import {mapState} from "vuex"
 import GEO_PROVINCE_DATA from './province.json'
-import LaunchButton from "@/components/LaunnchButton";
 
 let AMap = null
 
@@ -19,7 +18,6 @@ const DESTENATION_POINT = [110.504673, 28.046711] // 目标坐标
 
 export default {
     name: "MapLoca",
-    components: {LaunchButton},
     data() {
         return {
             isLoading: false,
