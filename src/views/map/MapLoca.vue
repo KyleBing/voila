@@ -7,7 +7,10 @@
             </div>
 
             <div class="area-header">
-                <BigScreenHeader :isShow="cardShow" @animate="this.animateStart"/>
+                <BigScreenHeader :isShow="cardShow"
+                                 @animate="this.animateStart"
+                                 @toggleCard="toggleCards"
+                />
             </div>
 
             <div :class="`area-left-${item + 1}`" v-for="item in 4" :key="item">
@@ -126,6 +129,9 @@ export default {
         },
     },
     methods: {
+        toggleCards(){
+            this.cardShow = !this.cardShow
+        },
         recalculateMapLocation(){
             this.mapLeft = this.$refs.mapContainer.offsetLeft
             this.mapTop = this.$refs.mapContainer.offsetTop

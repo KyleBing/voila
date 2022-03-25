@@ -15,7 +15,7 @@
             <h1 class="header-title compact" v-else >{{defaultTitle }}</h1>
 
             <div class="header-nav-list right">
-                <div class="header-nav-list-item" @click="">设置</div>
+                <div class="header-nav-list-item" @click="$emit('toggleCard')">卡片</div>
                 <div class="header-nav-list-item" @click="handleFullScreen">全屏</div>
             </div>
 
