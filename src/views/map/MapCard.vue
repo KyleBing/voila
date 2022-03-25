@@ -16,6 +16,7 @@ export default {
     props: {
         left: 0,
         top: 0,
+        isShow: false,
         animateInClass: {
             type: String,
             default: 'animate__fadeInTopLeft'
@@ -23,11 +24,11 @@ export default {
     },
     data(){
         return {
-            isShow: false, // 用于触发 transition 动画
+            // isShow: false, // 用于触发 transition 动画
         }
     },
     mounted() {
-        this.isShow = true
+        // this.isShow = true
     },
 
 }

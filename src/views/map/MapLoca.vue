@@ -1,13 +1,20 @@
 <template>
     <div class="map-container">
-        <div id="container" :style="`height: ${insets.height}px; width: ${insets.width}px`"></div>
         <div class="hover-layer" :style="`height: ${insets.height}px; width: ${insets.width}px`">
 
+            <div class="area-center" ref="mapContainer">
+                <div id="container" :style="mapContainerStyle"></div>
+            </div>
+
+            <div class="area-header">
+                <BigScreenHeader :isShow="cardShow"/>
+            </div>
+
             <div :class="`area-left-${item + 1}`" v-for="item in 4" :key="item">
-                <CardTarget/>
+                <CardTarget :isShow="cardShow"/>
             </div>
             <div :class="`area-right-${item + 1}`" v-for="item in 4" :key="item">
-                <CardTarget/>
+                <CardRight :isShow="cardShow"/>
             </div>
         </div>
     </div>
@@ -20,27 +27,45 @@ import ICON from "@/components/icons"
 import {mapState} from "vuex"
 import GEO_PROVINCE_DATA from './province.json'
 import CardTarget from "@/views/map/card/CardTarget";
+import BigScreenHeader from "@/views/map/header/BigScreenHeader";
+import CardRight from "@/views/map/card/CardRight";
 
 let AMap = null
 
 const TARGET_POINT = [121.504673, 25.046711] // 目标坐标 台湾
-const DESTINATION_POINT = [110.504673, 28.046711] // 目标坐标
+const TARGET_NAME = '台湾'
+// const TARGET_POINT = [117.019915,36.671156] // 目标坐标 济南
+// const TARGET_NAME = '济南'
+const DESTINATION_POINT = [110.504673, 34.046711] // 目标坐标
 
 export default {
     name: "MapLoca",
-    components: {CardTarget},
+    components: {CardRight, BigScreenHeader, CardTarget},
     data() {
         return {
             isLoading: false,
             map: null,
             loca: null,
+            mapLeft: 0,
+            mapTop: 0,
+            cardShow: false,
         }
     },
     mounted() {
         this.loadLocaMap()
+        this.$nextTick(this.recalculateMapLocation)
+
     },
     computed: {
         ...mapState(['insets']),
+        mapContainerStyle(){
+            return `
+            height: ${this.insets.height}px;
+            width: ${this.insets.width}px;
+            left: ${-this.mapLeft}px;
+            top: ${-this.mapTop}px;
+            `
+        },
         // 根据省份地址，生成展示地图需要的格式化数据
         dataPoints(){
             let tempData = GEO_PROVINCE_DATA.map(item => {
@@ -101,6 +126,10 @@ export default {
         },
     },
     methods: {
+        recalculateMapLocation(){
+            this.mapLeft = this.$refs.mapContainer.offsetLeft
+            this.mapTop = this.$refs.mapContainer.offsetTop
+        },
 
         loadLocaMap(){
             AMapLoader.load({
@@ -205,14 +234,14 @@ export default {
                     })
                     labelLayer.add(
                         new AMap.LabelMarker({
-                            name: '台湾',
+                            name: TARGET_NAME,
                             position: TARGET_POINT,
                             zooms: [2, 22],
                             opacity: 1,
                             zIndex: 10,
                             rank: 100,
                             text: {
-                                content: '台湾',
+                                content: TARGET_NAME,
                                 direction: 'bottom',
                                 offset: [0, -5],
                                 style: {
@@ -328,8 +357,8 @@ export default {
                     },
                     // 俯仰角动画
                     pitch: {
-                        value: 60, // 动画终点的俯仰角度
-                        control: [[0, 0], [1, 60]], // 控制器，x是0～1的起始区间，y是pitch值
+                        value: 8, // 动画终点的俯仰角度
+                        control: [[0, 90], [1, 8]], // 控制器，x是0～1的起始区间，y是pitch值
                         timing: [0, 0, 1, 1], // 这个值是线性过渡
                         duration: 5000,
                     },
@@ -341,14 +370,16 @@ export default {
                         duration: 8000,
                     },
                     // 旋转动画
-                    rotation: {
+/*                    rotation: {
                         value: -30, // 动画终点的地图旋转角度
                         control: [[0, 0], [1, -30]], // 控制器，x是0～1的起始区间，y是rotation值
                         timing: [0, 0, 1, 1],
                         duration: 8000,
-                    }
+                    }*/
                 }],
-                () => {})
+                () => {
+                    this.cardShow = true
+                })
         },
         resizeMap() {
             let mapContainer = document.getElementById('container')
@@ -429,10 +460,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/scss/plugin";
+
 #container{
-    position: fixed;
-    left: 0;
-    top: 0;
 }
 .map-container {
     position: relative;
@@ -445,7 +475,7 @@ export default {
     display: grid;
     grid-template-columns: 20% 60% 20%;
     grid-template-rows: 20% 20% 20% 20% 20%;
-    grid-gap: 10px 10px;
+    //grid-gap: 10px 10px;
 }
 
 @for $item from 1 through 5{
@@ -459,8 +489,13 @@ export default {
     }
 }
 .area-center{
-    grid-row-start: 2; grid-row-end: 7;
+    grid-row-start: 2; grid-row-end: 6;
     grid-column-start: 2;  grid-column-end: 3;
+}
+
+.area-header{
+    grid-column-start: 1;  grid-column-end: 4;
+    grid-row-start: 1; grid-row-end: 2;
 }
 
 

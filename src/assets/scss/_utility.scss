@@ -76,6 +76,13 @@
 }
 
 
+.btn-like{
+  cursor: pointer;
+  @extend .unselectable;
+  &:active{
+    @include transform(translateY(2px))
+  }
+}
 
 .link{
   &:hover{

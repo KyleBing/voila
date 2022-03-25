@@ -1,5 +1,5 @@
 <template>
-    <MapCard :isShow="isShow" :left="30" :top="100">
+    <MapCard animate-in-class="animate__fadeInTopRight" :isShow="isShow" :left="30" :top="100">
         <div class="target-container">
             <div class="target-item">
                 <div class="title">距离</div>
@@ -17,7 +17,7 @@
 <script>
 import MapCard from "@/views/map/MapCard";
 export default {
-    name: "CardTarget",
+    name: "CardRight",
     components: {MapCard},
     props: {
         isShow: false
