@@ -1,7 +1,7 @@
 <template>
     <transition
-        :enter-active-class="`animate__animated ${animateInClass || ''}`"
-        leave-active-class="animate__animated animate__bounceOutDown animate__fast"
+        :enter-active-class="`animate__animated ${animateInClass}`"
+        :leave-active-class="`animate__animated ${animateOutClass} animate__fast`"
         appear-active-class=""
     >
         <div v-if="isShow" class="map-card" :style="`left: ${left}; top: ${top}`">
@@ -19,7 +19,11 @@ export default {
         isShow: false,
         animateInClass: {
             type: String,
-            default: 'animate__fadeInTopLeft'
+            default: 'animate__fadeInLeft'
+        },
+        animateOutClass: {
+            type: String,
+            default: 'animate__fadeOutLeft'
         }
     },
     data(){

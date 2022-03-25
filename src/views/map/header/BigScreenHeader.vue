@@ -1,13 +1,13 @@
 <template>
     <transition
         enter-active-class="animate__animated animate__fadeInDown"
-        leave-active-class="animate__animated animate__bounceOutDown animate__fast"
+        leave-active-class="animate__animated animate__fadeOutUp animate__fast"
         appear-active-class=""
     >
         <div class="header" v-if="isShow">
             <div class="header-nav-list left">
                 <div class="header-nav-list-item" @click="$router.back()">返回</div>
-                <div class="header-nav-list-item" @click="">报警</div>
+                <div class="header-nav-list-item" @click="$emit('animate')">动画</div>
             </div>
 
             <!--最多十六个字-->

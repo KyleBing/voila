@@ -7,7 +7,7 @@
             </div>
 
             <div class="area-header">
-                <BigScreenHeader :isShow="cardShow"/>
+                <BigScreenHeader :isShow="cardShow" @animate="this.animateStart"/>
             </div>
 
             <div :class="`area-left-${item + 1}`" v-for="item in 4" :key="item">
@@ -348,6 +348,7 @@ export default {
         },
 
         animateStart(){
+            this.cardShow = false;
             this.loca.viewControl.addAnimates([{
                     center: {
                         value: DESTINATION_POINT, // 动画终点的经纬度

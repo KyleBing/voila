@@ -1,5 +1,8 @@
 <template>
-    <MapCard animate-in-class="animate__fadeInTopRight" :isShow="isShow" :left="30" :top="100">
+    <MapCard
+        animate-in-class="animate__fadeInRight"
+        animate-out-class="animate__fadeOutRight"
+        :isShow="isShow" :left="30" :top="100">
         <div class="target-container">
             <div class="target-item">
                 <div class="title">距离</div>
