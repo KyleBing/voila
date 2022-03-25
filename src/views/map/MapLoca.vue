@@ -364,8 +364,8 @@ export default {
                     },
                     // 俯仰角动画
                     pitch: {
-                        value: 8, // 动画终点的俯仰角度
-                        control: [[0, 90], [1, 8]], // 控制器，x是0～1的起始区间，y是pitch值
+                        value: 30, // 动画终点的俯仰角度
+                        control: [[0, 0], [1, 30]], // 控制器，x是0～1的起始区间，y是pitch值
                         timing: [0, 0, 1, 1], // 这个值是线性过渡
                         duration: 5000,
                     },
