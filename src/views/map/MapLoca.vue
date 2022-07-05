@@ -1,7 +1,6 @@
 <template>
     <div class="map-container" ref="map-container">
-        <div class="hover-layer" :style="`height: ${insets.height}px; width: ${insets.width}px`">
-
+        <div class="hover-layer">
             <div class="area-center" ref="mapContainer">
                 <div id="container" :style="mapContainerStyle"></div>
             </div>
@@ -56,18 +55,19 @@ export default {
     },
     mounted() {
         this.loadLocaMap()
-        this.$nextTick(this.recalculateMapLocation)
-        // onresize = this.render
+        this.$nextTick( () => {
+            onresize = this.render
+            this.recalculateMapLocation()
+        })
+
     },
     unmounted() {
-        // onresize = null
+        onresize = null
     },
     computed: {
         ...mapState(['insets']),
         mapContainerStyle(){
             return `
-            height: ${this.insets.height}px;
-            width: ${this.insets.width}px;
             left: ${-this.mapLeft}px;
             top: ${-this.mapTop}px;
             `
@@ -367,7 +367,8 @@ export default {
 
             scale = scaleWidth > scaleHeight ? scaleHeight : scaleWidth
 
-            document.body.style.transform = "scale(" + scale + ")"
+            document.body.style.transform = `scale(${scale})`
+            // document.body.style.transform = `scale(0.5)`
         },
 
 
@@ -488,6 +489,8 @@ export default {
 @import "../../assets/scss/plugin";
 
 #container{
+    height: 1080px;
+    width: 1920px;
 }
 .map-container {
     position: relative;
@@ -497,6 +500,8 @@ export default {
     overflow: hidden;
     position: absolute;
     left: 0;
+    width: 1920px;
+    height: 1080px;
     top: 0;
     display: grid;
     grid-template-columns: 20% 60% 20%;
