@@ -1,5 +1,5 @@
 <template>
-    <div class="map-container">
+    <div class="map-container" ref="map-container">
         <div class="hover-layer" :style="`height: ${insets.height}px; width: ${insets.width}px`">
 
             <div class="area-center" ref="mapContainer">
@@ -57,7 +57,10 @@ export default {
     mounted() {
         this.loadLocaMap()
         this.$nextTick(this.recalculateMapLocation)
-
+        // onresize = this.render
+    },
+    unmounted() {
+        // onresize = null
     },
     computed: {
         ...mapState(['insets']),
@@ -353,6 +356,21 @@ export default {
             })
         },
 
+
+        render() {
+            console.log('---Util: Render function is working')
+            let fullHeight = document.documentElement.clientHeight
+            let fullWidth = document.documentElement.clientWidth
+            let scaleWidth = fullWidth / 1920
+            let scaleHeight = fullHeight / 1080
+            let scale = scaleWidth
+
+            scale = scaleWidth > scaleHeight ? scaleHeight : scaleWidth
+
+            document.body.style.transform = "scale(" + scale + ")"
+        },
+
+
         animateStart(){
             this.cardShow = false;
             this.loca.viewControl.addAnimates([{
@@ -476,6 +494,7 @@ export default {
 }
 
 .hover-layer{
+    overflow: hidden;
     position: absolute;
     left: 0;
     top: 0;

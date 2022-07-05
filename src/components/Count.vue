@@ -1,6 +1,5 @@
 <template>
     <div class="count" ref="countUp">0</div>
-
 </template>
 
 <script>
