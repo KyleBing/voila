@@ -32,7 +32,7 @@ export default {
 .count{
     text-align: right;
     color: white;
-    font-size: 150px;
+    font-size: 80px;
     font-family: 'DS-Digital';
 }
 

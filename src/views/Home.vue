@@ -4,7 +4,7 @@
             :left="20*item"
             :top="20*item"
             :title="`demo-${item}`"
-            v-for="item in 4" :key="item">
+            v-for="item in 8" :key="item">
             <Count :end-val="2358 * item"/>
         </FloatingPanel>
 
