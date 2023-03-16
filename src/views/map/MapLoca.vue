@@ -331,7 +331,7 @@ export default {
                         // altitude: 1000,
                         smoothSteps: 100, // 曲线圆滑度
                         speed: function (index, prop) {
-                            return 1000 + Math.random() * 200000;
+                            return 1000 + Math.random() * 40000;
                         },
                         flowLength: 100000,
                         lineColors: function (index, feat) {
@@ -504,6 +504,7 @@ export default {
     height: 1080px;
     top: 0;
     display: grid;
+    grid-gap: 5px;
     grid-template-columns: 20% 60% 20%;
     grid-template-rows: 20% 20% 20% 20% 20%;
     //grid-gap: 10px 10px;
