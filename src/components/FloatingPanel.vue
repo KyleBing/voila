@@ -35,7 +35,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import interact from 'interactjs'
 
-import { useProjectStore } from "@/store/useProjectStore";
+import { useProjectStore } from "@/useProjectStore.ts";
 const projectStore = useProjectStore()
 
 

@@ -2,7 +2,7 @@
     <RouterView />
 </template>
 <script lang="ts" setup>
-import {useProjectStore} from "./store/useProjectStore.ts";
+import {useProjectStore} from "./useProjectStore.ts";
 const projectStore = useProjectStore()
 import {onBeforeMount, onMounted} from "vue";
 

@@ -25,7 +25,7 @@ import CardThreejs from "@/cards/CardThreejs.vue";
 import LoadingCircle from "@/components/LoadingCircle.vue";
 import CardLoadingCircle from "@/cards/CardLoadingCircle.vue";
 
-import { useProjectStore } from "@/store/useProjectStore";
+import { useProjectStore } from "@/useProjectStore";
 const projectStore = useProjectStore()
 </script>
 

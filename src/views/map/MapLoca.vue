@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import AMapLoader from '@amap/amap-jsapi-loader'
-import ICON from "@/components/icons"
+import ICON from "@/components/icons.ts"
 import GEO_PROVINCE_DATA from './province.json'
 import CardTarget from "@/views/map/card/CardTarget"
 import BigScreenHeader from "@/views/map/header/BigScreenHeader"

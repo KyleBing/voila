@@ -11,7 +11,7 @@ const pinia = createPinia()
 app.use(pinia)
 
 // ROUTER
-import {router} from "./router"
+import {router} from "./router.ts"
 app.use(router)
 
 

@@ -23,7 +23,7 @@ import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js"
 import FloatingPanel from "@/components/FloatingPanel.vue"
 
 // Store
-import { useProjectStore } from "@/store/useProjectStore"
+import { useProjectStore } from "@/useProjectStore.ts"
 const projectStore = useProjectStore()
 
 // Reactive data
