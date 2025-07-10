@@ -27,9 +27,9 @@ import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import AMapLoader from '@amap/amap-jsapi-loader'
 import ICON from "@/components/icons.ts"
 import GEO_PROVINCE_DATA from './province.json'
-import CardTarget from "@/views/map/card/CardTarget"
-import BigScreenHeader from "@/views/map/header/BigScreenHeader"
-import CardRight from "@/views/map/card/CardRight"
+import CardTarget from "./card/CardTarget.vue"
+import BigScreenHeader from "./header/BigScreenHeader.vue"
+import CardRight from "./card/CardRight.vue"
 
 // Types
 interface MapInstance {
@@ -427,79 +427,6 @@ const animateStart = () => {
     () => {
         cardShow.value = true
     })
-}
-
-const resizeMap = () => {
-    const mapContainer = document.getElementById('container')
-    if (mapContainer) {
-        mapContainer.style.height = window.innerHeight + "px"
-        mapContainer.style.width = window.innerWidth + "px"
-    }
-}
-
-// 载入路线信息
-const loadLine = (map: any, line: any) => {
-    map.plugin('AMap.DragRoute', () => {
-        // path 是驾车导航的起、途径和终点，最多支持16个途经点
-        const path: any[] = []
-        line.paths.forEach((point: any) => {
-            path.push(point.position)
-        })
-        const route = new AMap!.DragRoute(map, path, AMap!.DrivingPolicy.LEAST_FEE, {
-            startMarkerOptions: {
-                offset: new AMap!.Pixel(-13, -40),
-                icon: new AMap!.Icon({ // 设置途经点的图标
-                    size: new AMap!.Size(26, 40),
-                    image: ICON.start,
-                    // imageOffset: new AMap.Pixel(0,0), // 图片的偏移量，在大图中取小图的时候有用
-                    imageSize: new AMap!.Size(26, 40) // 指定图标的大小，可以压缩图片
-
-                }),
-            },
-            endMarkerOptions: {
-                offset: new AMap!.Pixel(-13, -40),
-                icon: new AMap!.Icon({ // 设置途经点的图标
-                    size: new AMap!.Size(26, 40),
-                    image: ICON.end,
-                    // imageOffset: new AMap.Pixel(0,0), // 图片的偏移量，在大图中取小图的时候有用
-                    imageSize: new AMap!.Size(26, 40) // 指定图标的大小，可以压缩图片
-
-                }),
-            },
-            midMarkerOptions: {
-                offset: new AMap!.Pixel(-5, -10),
-                icon: new AMap!.Icon({ // 设置途经点的图标
-                    size: new AMap!.Size(15, 15),
-                    image: ICON.midIcon,
-                    // imageOffset: new AMap.Pixel(0,0), // 图片的偏移量，在大图中取小图的时候有用
-                    imageSize: new AMap!.Size(15, 15) // 指定图标的大小，可以压缩图片
-
-                }),
-            },
-        })
-        // 查询导航路径并开启拖拽导航
-        route.search()
-        // this.currentRouting = route
-    })
-}
-
-// 添加路线 Label
-const loadLineLabels = (map: any, line: any) => {
-    line.paths.forEach((item: any) => {
-        addMarker(map, item)
-    })
-}
-
-const addMarker = (map: any, item: any) => {
-    const marker = new AMap!.Marker({
-        position: item.position,
-        content: `
-       <div class="marker">
-          <div class="title">${item.name}</div>
-          <div class="note">${item.note.replaceAll('|', '<br>')}</div>
-       </div>`,
-    })
-    map.add(marker)
 }
 
 // Lifecycle hooks

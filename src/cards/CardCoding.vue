@@ -14,7 +14,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import FloatingPanel from "@/components/FloatingPanel.vue"
-import LaunchButton from "@/components/LaunnchButton.vue"
 
 // Reactive data
 const showingCode = ref('')

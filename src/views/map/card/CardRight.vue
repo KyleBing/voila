@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import MapCard from "@/views/map/MapCard"
+import MapCard from "@/views/map/MapCard.vue"
 
 interface Props {
     isShow?: boolean

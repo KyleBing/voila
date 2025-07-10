@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import MapCard from "@/views/map/MapCard"
+import MapCard from "@/views/map/MapCard.vue"
 
 interface Props {
     isShow?: boolean
