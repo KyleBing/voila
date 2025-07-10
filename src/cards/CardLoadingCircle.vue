@@ -13,18 +13,11 @@
     </FloatingPanel>
 </template>
 
-<script>
-import FloatingPanel from "@/components/FloatingPanel";
-import LoadingCircle from "@/components/LoadingCircle";
-import LaunchButton from "@/components/LaunnchButton";
-export default {
-    name: "CardLoadingCircle",
-    components: {LaunchButton, LoadingCircle, FloatingPanel},
-
-    data(){
-        return {}
-    },
-}
+<script setup lang="ts">
+import FloatingPanel from "@/components/FloatingPanel.vue"
+import LoadingCircle from "@/components/LoadingCircle.vue"
+import LaunchButton from "@/components/LaunnchButton.vue"
+// No props or data needed
 </script>
 
 <style scoped lang="scss">

@@ -33,10 +33,32 @@
 
 </template>
 
-<script>
-import util from "@/assets/js/util";
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted, watch } from 'vue'
+import util from "@/assets/js/util"
 
-let weekMap = new Map()
+interface Clock {
+    date: string
+    week: string
+    time: string
+}
+
+interface Props {
+    isShow?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    isShow: false
+})
+
+// Emits
+const emit = defineEmits<{
+    animate: []
+    toggleCard: []
+}>()
+
+// Constants
+const weekMap = new Map<string, string>()
 weekMap.set('0', '周期日')
 weekMap.set('1', '周期一')
 weekMap.set('2', '周期二')
@@ -45,92 +67,97 @@ weekMap.set('4', '周期四')
 weekMap.set('5', '周期五')
 weekMap.set('6', '周期六')
 
-export default {
-    name: "BigScreenHeader",
-    props: {
-        isShow: false
-    },
-    data(){
-        return {
-            clock: {}, // 时钟本体
-            defaultTitle: '战略部署', // 默认项目名
-            deviceCount: 0, // 设备数量
-            intervalHandleClock: null, // 时钟 interval handle
-        }
-    },
-    computed:{
-    },
-    mounted() {
-        this.clockStart()
-        this.addVisibilityEvent()
-    },
-    methods: {
-        // 处理界面展示与隐藏的事件
-        addVisibilityEvent(){
-            document.addEventListener('visibilitychange', event => {
-                this.isWindowVisible = document.visibilityState === 'visible'
-            })
-        },
-        clockStart(){
-            this.clockStop()
-            this.intervalHandleClock = setInterval(()=>{
-                let timeNow = new Date()
-                this.clock = {
-                    date: util.dateFormatter(timeNow, 'yyyy/MM/dd'),
-                    week: weekMap.get(String(timeNow.getDay())),
-                    time:  util.dateFormatter(timeNow, 'hh:mm:ss'),
-                }
-            }, 1000)
-        },
-        clockStop(){
-            clearInterval(this.intervalHandleClock)
-        },
-        // 全屏与非全屏切换
-        handleFullScreen() {
-            let element = document.documentElement
-            // 判断是否已经是全屏
-            // 如果是全屏，退出
-            if (this.isFullScreen) {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen()
-                } else if (document.webkitCancelFullScreen) {
-                    document.webkitCancelFullScreen()
-                } else if (document.mozCancelFullScreen) {
-                    document.mozCancelFullScreen()
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen()
-                }
-            } else {
-                if (element.requestFullscreen) {
-                    element.requestFullscreen()
-                } else if (element.webkitRequestFullScreen) {
-                    element.webkitRequestFullScreen()
-                } else if (element.mozRequestFullScreen) {
-                    element.mozRequestFullScreen()
-                } else if (element.msRequestFullscreen) {
-                    // IE11
-                    element.msRequestFullscreen()
-                }
-            }
-            this.isFullScreen = !this.isFullScreen
-        },
-    },
-    watch: {
-        isWindowVisible(newValue){
-            // 当界面不展示的时候，应该停止所有的 setInterval 动画
-            // 不然，在再回到界面的时候，这段时间的所有 interval 更新，都会一性次的在界面执行，就会很卡
-            if (newValue){
-                this.clockStart()
-            } else {
-                this.clockStop()
-            }
-        }
-    },
+// Reactive data
+const clock = ref<Clock>({
+    date: '',
+    week: '',
+    time: ''
+})
+const defaultTitle = ref('战略部署') // 默认项目名
+const deviceCount = ref(0) // 设备数量
+const intervalHandleClock = ref<NodeJS.Timeout | null>(null) // 时钟 interval handle
+const isWindowVisible = ref(true)
+const isFullScreen = ref(false)
 
-    beforeDestroy() {
-        clearInterval(this.intervalHandleClock) // 清除定时器
+// Methods
+// 处理界面展示与隐藏的事件
+const addVisibilityEvent = () => {
+    document.addEventListener('visibilitychange', (event) => {
+        isWindowVisible.value = document.visibilityState === 'visible'
+    })
+}
+
+const clockStart = () => {
+    clockStop()
+    intervalHandleClock.value = setInterval(() => {
+        const timeNow = new Date()
+        clock.value = {
+            date: util.dateFormatter(timeNow, 'yyyy/MM/dd'),
+            week: weekMap.get(String(timeNow.getDay())) || '',
+            time: util.dateFormatter(timeNow, 'hh:mm:ss'),
+        }
+    }, 1000)
+}
+
+const clockStop = () => {
+    if (intervalHandleClock.value) {
+        clearInterval(intervalHandleClock.value)
+        intervalHandleClock.value = null
     }
 }
+
+// 全屏与非全屏切换
+const handleFullScreen = () => {
+    const element = document.documentElement
+    // 判断是否已经是全屏
+    // 如果是全屏，退出
+    if (isFullScreen.value) {
+        if (document.exitFullscreen) {
+            document.exitFullscreen()
+        } else if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen()
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen()
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen()
+        }
+    } else {
+        if (element.requestFullscreen) {
+            element.requestFullscreen()
+        } else if (element.webkitRequestFullScreen) {
+            element.webkitRequestFullScreen()
+        } else if (element.mozRequestFullScreen) {
+            element.mozRequestFullScreen()
+        } else if (element.msRequestFullscreen) {
+            // IE11
+            element.msRequestFullscreen()
+        }
+    }
+    isFullScreen.value = !isFullScreen.value
+}
+
+// Watchers
+watch(isWindowVisible, (newValue) => {
+    // 当界面不展示的时候，应该停止所有的 setInterval 动画
+    // 不然，在再回到界面的时候，这段时间的所有 interval 更新，都会一性次的在界面执行，就会很卡
+    if (newValue) {
+        clockStart()
+    } else {
+        clockStop()
+    }
+})
+
+// Lifecycle hooks
+onMounted(() => {
+    clockStart()
+    addVisibilityEvent()
+})
+
+onUnmounted(() => {
+    if (intervalHandleClock.value) {
+        clearInterval(intervalHandleClock.value) // 清除定时器
+    }
+})
 </script>
 
 <style scoped lang="scss">

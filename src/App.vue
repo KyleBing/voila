@@ -1,27 +1,33 @@
 <template>
-  <router-view/>
+    <RouterView />
 </template>
+<script lang="ts" setup>
+import {useProjectStore} from "./store/useProjectStore.ts";
+const projectStore = useProjectStore()
+import {onBeforeMount, onMounted, ref} from "vue";
 
-<script>
-import {mapMutations} from 'vuex'
-    export default {
-        mounted() {
-            this.SET_INSETS({
-                height: innerHeight,
-                width: innerWidth
-            })
-            window.addEventListener('resize', () => {
-                this.SET_INSETS({
-                    height: innerHeight,
-                    width: innerWidth
-                })
-            })
-        },
-        methods: {
-            ...mapMutations(['SET_INSETS'])
-        }
+onBeforeMount(() => {
+   
+})
+
+
+onMounted(()=> {
+    projectStore.insets = {
+        height: innerHeight,
+        width: innerWidth
     }
+    window.addEventListener('resize', () => {
+        projectStore.insets = {
+            height: innerHeight,
+            width: innerWidth
+        }
+    })
+})
+
+
 </script>
+
 <style lang="scss">
-@import "assets/scss/main";
+@import "./assets/scss/main.scss";
 </style>
+

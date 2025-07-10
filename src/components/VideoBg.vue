@@ -8,17 +8,7 @@
     </video>-->
 </template>
 
-<script>
-import {mapState} from 'vuex'
-
-export default {
-    name: "VideoBg",
-    mounted() {},
-    computed: {
-        ...mapState(['insets'])
-    }
-
-}
+<script setup lang="ts">
 </script>
 
 <style scoped lang="scss">

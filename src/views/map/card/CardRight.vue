@@ -17,15 +17,16 @@
     </MapCard>
 </template>
 
-<script>
-import MapCard from "@/views/map/MapCard";
-export default {
-    name: "CardRight",
-    components: {MapCard},
-    props: {
-        isShow: false
-    }
+<script setup lang="ts">
+import MapCard from "@/views/map/MapCard"
+
+interface Props {
+    isShow?: boolean
 }
+
+const props = withDefaults(defineProps<Props>(), {
+    isShow: false
+})
 </script>
 
 <style scoped lang="scss">

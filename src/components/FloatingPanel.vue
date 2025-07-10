@@ -31,133 +31,115 @@
 
 </template>
 
-<script>
-
+<script setup lang="ts">
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import interact from 'interactjs'
-import {mapMutations, mapState} from "vuex";
 
-export default {
-    name: "FloatingPanel",
-    props: {
-        title: {
-            type: String,
-            default: ''
-        },
-        top: 0,
-        left: 0,
-        backgroundColor: '',
-        width: {// 面板宽度
-            type: Number,
-            default: 400
-        },
-        height: {// 面板高度
-            type: Number,
-            default: 0
-        },
-        noPadding: {
-            type: Boolean,
-            default: false
-        },
-        animateInClass: {
-            type: String,
-            default: 'animate__fadeInTopLeft'
-        }
-    },
-    data(){
-        return {
-            oldPositionX: 0,
-            oldPositionY: 0,
-            positionX: 0,
-            positionY: 0,
-            cardWidth: 0,
-            cardHeight: 0,
-            isMouseDown: false,
-            isShow: false, // 用于触发 transition 动画
-            zIndex: 1 // z-map
-        }
-    },
-    mounted() {
-        this.isShow = true
-        this.cardWidth = this.width
-        this.cardHeight = this.height
+import { useProjectStore } from "@/store/useProjectStore";
+const projectStore = useProjectStore()
 
-        this.positionY = this.top || 0
-        this.positionX = this.left || 0
 
-        interact(this.$refs.header)
+interface Props {
+    title?: string
+    top?: number
+    left?: number
+    backgroundColor?: string
+    width?: number
+    height?: number
+    noPadding?: boolean
+    animateInClass?: string
+}
+const props = withDefaults(defineProps<Props>(), {
+    title: '',
+    top: 0,
+    left: 0,
+    backgroundColor: '',
+    width: 400,
+    height: 0,
+    noPadding: false,
+    animateInClass: 'animate__fadeInTopLeft'
+})
+
+const header = ref<HTMLElement | null>(null)
+const oldPositionX = ref(0)
+const oldPositionY = ref(0)
+const positionX = ref(0)
+const positionY = ref(0)
+const cardWidth = ref(props.width)
+const cardHeight = ref(props.height)
+const isMouseDown = ref(false)
+const isShow = ref(false)
+const zIndex = ref(1)
+
+onMounted(() => {
+    isShow.value = true
+    cardWidth.value = props.width
+    cardHeight.value = props.height
+    positionY.value = props.top || 0
+    positionX.value = props.left || 0
+    if (header.value) {
+        interact(header.value)
             .draggable({
-                // enable inertial throwing
                 inertia: true,
-                // 是否保持 dom 元素在其父 dom 中
                 modifiers: [
                     interact.modifiers.restrictRect({
                         restriction: 'parent',
                         endOnly: true
                     })
                 ],
-                // enable autoScroll
                 autoScroll: true,
-
                 listeners: {
-                    // 拖动开始
-                    start: this.updatePanelZIndex,
-                    // 拖动中
-                    move: this.dragMoveListener,
-                    // 移动结束事件
-                    end: this.dragMoveListener
+                    start: updatePanelZIndex,
+                    move: dragMoveListener,
+                    end: dragMoveListener
                 }
             })
-        window.dragMoveListener = this.dragMoveListener
-    },
-    beforeUnmount() {
-        this.$refs.header.removeEventListener('mouseup', null)
-        this.$refs.header.removeEventListener('mousedown', null)
-        this.$refs.header.removeEventListener('mousemove', null)
-    },
-    methods: {
-        ...mapMutations(['SET_LATEST_Z_INDEX']),
-        // 更新当前卡片的 z-map 在点击 .header 或拖动 .header 的时候都会触发
-        updatePanelZIndex(){
-            this.zIndex = this.lastZIndex + 1
-            this.SET_LATEST_Z_INDEX(this.zIndex)
-        },
-        dragMoveListener(event){
-            // console.log(event)
-            this.positionX = this.positionX + event.dx
-            this.positionY = this.positionY + event.dy
-            // console.log(this.positionX, this.positionY)
-        },
-        closePanel(){
-            this.isShow = false
-        },
-        fillWindow(){
-            if (this.insets.width === this.cardWidth){ // 已全屏
-                this.positionX = this.oldPositionX
-                this.positionY = this.oldPositionY
-                this.cardHeight = this.height
-                this.cardWidth = this.width
-            } else {
-                this.cardHeight = this.insets.height
-                this.cardWidth = this.insets.width
-                this.oldPositionX = this.positionX
-                this.oldPositionY = this.positionY
-                this.positionX = 0
-                this.positionY = 0
-            }
-        }
-    },
-    computed: {
-        ...mapState(['insets', 'lastZIndex']),
-        bodyStyle(){ // 计算 body 的样式
-            let styleList = []
-            styleList.push(this.backgroundColor? `background-color: ${this.backgroundColor}`: '' )
-            styleList.push(this.noPadding?'padding: 0' : 'padding: 20px')
-            styleList.push(this.backgroundColor === 'black'?'border-color: #444' : '')
-            return styleList.join('; ')
-        }
     }
+    // @ts-ignore
+    window.dragMoveListener = dragMoveListener
+})
 
+onBeforeUnmount(() => {
+    // Clean up interactjs listeners if needed
+})
+
+const updatePanelZIndex = () => {
+    zIndex.value = projectStore.lastZIndex + 1
+    projectStore.lastZIndex = zIndex.value
 }
+
+const dragMoveListener = (event: any) => {
+    positionX.value = positionX.value + event.dx
+    positionY.value = positionY.value + event.dy
+}
+
+const closePanel = () => {
+    isShow.value = false
+}
+
+const fillWindow = () => {
+    if (projectStore.insets.width === cardWidth.value) {
+        positionX.value = oldPositionX.value
+        positionY.value = oldPositionY.value
+        cardHeight.value = props.height
+        cardWidth.value = props.width
+    } else {
+        cardHeight.value = projectStore.insets.height
+        cardWidth.value = projectStore.insets.width
+        oldPositionX.value = positionX.value
+        oldPositionY.value = positionY.value
+        positionX.value = 0
+        positionY.value = 0
+    }
+}
+
+const bodyStyle = computed(() => {
+    const styleList = []
+    styleList.push(props.backgroundColor ? `background-color: ${props.backgroundColor}` : '')
+    styleList.push(props.noPadding ? 'padding: 0' : 'padding: 20px')
+    styleList.push(props.backgroundColor === 'black' ? 'border-color: #444' : '')
+    return styleList.join('; ')
+})
 </script>
 
 <style scoped lang="scss">

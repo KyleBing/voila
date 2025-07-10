@@ -2,17 +2,8 @@
     <div class="launch-btn">LAUNCH</div>
 </template>
 
-<script>
-export default {
-    name: "LaunchButton",
-    data(){
-        return {
-
-        }
-    },
-    mounted() {
-    },
-}
+<script setup lang="ts">
+// No props or data needed
 </script>
 
 <style scoped lang="scss">

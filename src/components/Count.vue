@@ -2,30 +2,31 @@
     <div class="count" ref="countUp">0</div>
 </template>
 
-<script>
-import { CountUp } from "countup.js"
-export default {
-    name: "Count",
-    props: {
-        endVal: {
-            type: Number,
-            default: 100
-        }
-    },
-    mounted() {
-        setTimeout(()=>{
-            let countUp = new CountUp(this.$refs.countUp, this.endVal, {
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import {CountUp} from 'countup.js'
 
-            })
-            if (!countUp.error){
-                countUp.start()
-            } else {
-                console.error(countUp.error);
-            }
-        }, 1000)
-
-    }
+interface Props {
+    endVal?: number
 }
+const props = withDefaults(defineProps<Props>(), {
+    endVal: 100
+})
+
+const countUp = ref<HTMLElement | null>(null)
+
+onMounted(() => {
+    setTimeout(() => {
+        if (countUp.value) {
+            const countUpInstance = new CountUp(countUp.value, props.endVal)
+            if (!countUpInstance.error) {
+                countUpInstance.start()
+            } else {
+                console.error(countUpInstance.error)
+            }
+        }
+    }, 1000)
+})
 </script>
 
 <style scoped lang="scss">

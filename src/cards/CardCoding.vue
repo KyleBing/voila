@@ -11,18 +11,15 @@
     </FloatingPanel>
 </template>
 
-<script>
-import FloatingPanel from "@/components/FloatingPanel";
-import LaunchButton from "@/components/LaunnchButton";
-export default {
-    name: "CardCoding",
-    components: {LaunchButton, FloatingPanel},
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue'
+import FloatingPanel from "@/components/FloatingPanel.vue"
+import LaunchButton from "@/components/LaunnchButton.vue"
 
-    data(){
-        return {
-            showingCode: '',
-            // ASCII 颜文字生成可以去这个网站： https://patorjk.com/software/taag/#p=display&h=1&f=Doom&t=Kyle%20Bing
-            codeOrigin: `SCRIPT INIT v1.13.67
+// Reactive data
+const showingCode = ref('')
+// ASCII 颜文字生成可以去这个网站： https://patorjk.com/software/taag/#p=display&h=1&f=Doom&t=Kyle%20Bing
+const codeOrigin = `SCRIPT INIT v1.13.67
 SYSTEM IS BOOTING, PLEASE HOLD ...
 
   ,            _         , __
@@ -55,34 +52,34 @@ finished: [ ====================================================================
 success Saved lockfile.
 Done
 
-`,
-            offset: 0, // 当前显示代码的位置
-            step: 2, // 一次移动几个字符
-            intervalHandle: null,
-            interval: 60, // ms
-        }
-    },
-    mounted() {
-        this.intervalHandle = setInterval(()=> {
-            if (this.showingCode === this.codeOrigin){
-                this.showingCode = ''
-                this.offset = 0
-                // this.clearInterval()
-            } else {
-                this.showingCode = this.codeOrigin.substring(0, this.offset)
-                this.offset = this.offset + this.step
-            }
-        }, this.interval)
-    },
-    methods: {
-        clearInterval(){
-            if (this.intervalHandle) clearInterval(this.intervalHandle)
-        }
-    },
-    beforeUnmount() {
-        this.clearInterval()
-    }
+`
+const offset = ref(0) // 当前显示代码的位置
+const step = ref(2) // 一次移动几个字符
+const intervalHandle = ref<NodeJS.Timeout | null>(null)
+const interval = ref(60) // ms
+
+// Methods
+const clearInterval = () => {
+    if (intervalHandle.value) clearInterval(intervalHandle.value)
 }
+
+// Lifecycle hooks
+onMounted(() => {
+    intervalHandle.value = setInterval(() => {
+        if (showingCode.value === codeOrigin) {
+            showingCode.value = ''
+            offset.value = 0
+            // clearInterval()
+        } else {
+            showingCode.value = codeOrigin.substring(0, offset.value)
+            offset.value = offset.value + step.value
+        }
+    }, interval.value)
+})
+
+onUnmounted(() => {
+    clearInterval()
+})
 </script>
 
 <style scoped lang="scss">

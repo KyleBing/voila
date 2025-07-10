@@ -10,32 +10,22 @@
     </transition>
 </template>
 
-<script>
-export default {
-    name: "MapCard",
-    props: {
-        left: 0,
-        top: 0,
-        isShow: false,
-        animateInClass: {
-            type: String,
-            default: 'animate__fadeInLeft'
-        },
-        animateOutClass: {
-            type: String,
-            default: 'animate__fadeOutLeft'
-        }
-    },
-    data(){
-        return {
-            // isShow: false, // 用于触发 transition 动画
-        }
-    },
-    mounted() {
-        // this.isShow = true
-    },
-
+<script setup lang="ts">
+interface Props {
+    left?: string | number
+    top?: string | number
+    isShow?: boolean
+    animateInClass?: string
+    animateOutClass?: string
 }
+
+const props = withDefaults(defineProps<Props>(), {
+    left: 0,
+    top: 0,
+    isShow: false,
+    animateInClass: 'animate__fadeInLeft',
+    animateOutClass: 'animate__fadeOutLeft'
+})
 </script>
 
 <style scoped lang="scss">

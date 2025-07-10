@@ -1,5 +1,5 @@
 <template>
-    <div class="home" :style="`height: ${insets.height}px; width: ${insets.width}px`">
+    <div class="home" :style="`height: ${projectStore.insets.height}px; width: ${projectStore.insets.width}px`">
         <FloatingPanel
             :left="20*item"
             :top="20*item"
@@ -15,33 +15,18 @@
     </div>
 </template>
 
-<script>
-import {mapState} from 'vuex'
-import Count from "@/components/Count";
-import FloatingPanel from "@/components/FloatingPanel";
-import VideoBg from "@/components/VideoBg";
-import CardCoding from "@/cards/CardCoding";
-import CardThreejs from "@/cards/CardThreejs";
+<script setup >
+import Count from "@/components/Count.vue";
+import FloatingPanel from "@/components/FloatingPanel.vue";
+import VideoBg from "@/components/VideoBg.vue";
+import CardCoding from "@/cards/CardCoding.vue";
+import CardThreejs from "@/cards/CardThreejs.vue";
 
-import LoadingCircle from "@/components/LoadingCircle";
-import CardLoadingCircle from "@/cards/CardLoadingCircle";
+import LoadingCircle from "@/components/LoadingCircle.vue";
+import CardLoadingCircle from "@/cards/CardLoadingCircle.vue";
 
-
-export default {
-    name: 'Home',
-    components: {
-        CardLoadingCircle,
-        LoadingCircle,
-        CardThreejs,
-        CardCoding,
-        VideoBg,
-        FloatingPanel,
-        Count
-    },
-    computed: {
-        ...mapState(['insets'])
-    }
-}
+import { useProjectStore } from "@/store/useProjectStore";
+const projectStore = useProjectStore()
 </script>
 
 <style lang="scss" scoped>
