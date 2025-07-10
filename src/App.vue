@@ -4,14 +4,15 @@
 <script lang="ts" setup>
 import {useProjectStore} from "./store/useProjectStore.ts";
 const projectStore = useProjectStore()
-import {onBeforeMount, onMounted, ref} from "vue";
+import {onBeforeMount, onMounted} from "vue";
+
 
 onBeforeMount(() => {
-   
+    (document.querySelector('.preloading') as HTMLDivElement).style.display = 'none'
 })
 
 
-onMounted(()=> {
+onMounted(() => {
     projectStore.insets = {
         height: innerHeight,
         width: innerWidth
