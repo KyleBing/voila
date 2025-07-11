@@ -1,9 +1,11 @@
 <template>
-    <div class="launch-btn">LAUNCH</div>
+    <div class="launch-btn">
+        <slot></slot>
+    </div>
 </template>
 
 <script setup lang="ts">
-// No props or data needed
+
 </script>
 
 <style scoped lang="scss">

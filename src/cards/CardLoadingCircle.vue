@@ -8,7 +8,8 @@
     >
         <LoadingCircle/>
         <div class="btn-container">
-            <LaunchButton @click="$router.push({name: 'MapLoca'})"/>
+            <LaunchButton class="mb-2" @click="$router.push({name: 'MapLoca'})">MAP_LOCA</LaunchButton>
+            <LaunchButton class="mb-2" @click="$router.push({name: 'Console'})">CONSOLE</LaunchButton>
         </div>
     </FloatingPanel>
 </template>
@@ -23,6 +24,7 @@ import LaunchButton from "@/components/LaunnchButton.vue"
 <style scoped lang="scss">
 @import "../assets/scss/plugin";
 .btn-container{
+    flex-direction: column;
     padding: 20px 30px;
     display: flex;
     justify-content: center;

@@ -54,11 +54,11 @@ Done
 `
 const offset = ref(0) // 当前显示代码的位置
 const step = ref(2) // 一次移动几个字符
-const intervalHandle = ref<NodeJS.Timeout | null>(null)
+const intervalHandle = ref<number | null>(null)
 const interval = ref(60) // ms
 
 // Methods
-const clearInterval = () => {
+const clearIntervalHandle = () => {
     if (intervalHandle.value) clearInterval(intervalHandle.value)
 }
 
@@ -77,7 +77,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-    clearInterval()
+    clearIntervalHandle()
 })
 </script>
 

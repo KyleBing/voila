@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 
 export const useProjectStore = defineStore('projectStore', {
     state: ()=>({
+        headerHeight: 80,
         insets: {
             width: 0,
             height: 0
